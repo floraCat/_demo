@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test</title>
+    <link type="text/css" rel="stylesheet" href="../css/m/h_reset.css" />
+    <script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+
+
+<pre>
+reset: p,li,ul,ol,dl,dt,dd等部分样式会继承body(如font-family,font-size等)，而部分不会继承(如box-sizing等)
+
+word-break：normal | keep-all | break-all
+//对于解决防止页面中出现连续无意义的长字符打破布局，应该使用break-all属性值；
+
+word-wrap：normal | break-word
+//normal：允许内容顶开或溢出指定的容器边界。
+//break-word：内容将在边界内换行。如果需要，单词内部允许断行。
+
+ opacity: .6; filter:progid:DXImageTransform.Microsoft.Alpha(opacity=60);
+//半透明，background-color: #000; 不要用background:rgba();ie9会双重透明
+
+.clr:after{ content:"."; display:block; height:0; clear:both; visibility:hidden;}
+//消浮
+
+{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+//单行省略号
+
+display:-webkit-box!important; overflow:hidden; word-break:break-all; -webkit-box-orient:vertical; -webkit-line-clamp:2; text-overflow:ellipsis; -o-text-overflow:ellipsis;
+//多行省略号
+
+</pre>
+
+
+
+
+
+<script>
+
+</script>
+
+
+</body>
+</html>

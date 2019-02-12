@@ -1,0 +1,114 @@
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>售后维护系统 - 全民易购 - 首页</title>
+	<link rel="stylesheet" href="css/h_reset.css" />
+	<link rel="stylesheet" href="css/h_table.css" />
+	<link type="text/css" rel="stylesheet" href="lib/jedate/skin/jedate.css">
+</head>
+
+
+<body>
+	<div class="pTable">
+
+		<div class="top">
+
+			<!--日期-->
+			<tp-datefilter></tp-datefilter>
+
+			<!--搜索-->
+			<tp-search></tp-search>
+
+			<ol class="btns">
+				<a href="javascript:;" v-on:click="getdateTime3">3天</a>
+				<a href="javascript:;" v-on:click="getdateTime7">7天</a>
+				<a href="javascript:;" v-on:click="hintMethod">特别关注<i id="jsFollow">12</i></a>
+				<a href="javascript:;">合伙人信息查询</a>
+			</ol>
+
+		</div>
+
+		<!--数据列表-->
+		<table>
+			<tr class="head">
+				<td class="l1">时间</td>
+				<td class="l2">姓名</td>
+				<td class="l3">城市</td>
+				<td class="l4">等级</td>
+				<td class="l5">推荐人</td>
+				<td class="l6">是否交钱</td>
+				<td class="l7">从事行业</td>
+				<td class="l8">总财务核对<br />交钱方式</td>
+				<td class="l9">个人信息</td>
+				<td class="l10">签约状态</td>
+				<td class="l11">总财务审核</td>
+				<td class="l12">物料寄送<br />状态</td>
+				<td class="l13">培训情况</td>
+				<td class="l14">客户自动提问次数</td>
+				<td class="l15">核心问题内容</td>
+				<td class="l16">名下推广<br />会员</td>
+				<td class="l17">朋友圈广<br />告次数</td>
+				<td class="l18">今日共享<br />收益状态</td>
+				<td class="l19">备注</td>
+				<td class="l20">操作</td>
+			</tr>
+			<tr class="lis" v-for="(item,index) in items">
+				<td v-text="item.time"></td>
+				<td>{{item.name}}<p class="follow green" v-if="item.follow=='1'">已关注</p><p class="follow red" v-else>未关注</p></td>
+				<td v-text="item.city"></td>
+				<td v-text="item.level"></td>
+				<td v-text="item.recom"></td>
+				<td :class="{red:item.payOrNot==0,green:item.payOrNot==1}">{{item.payOrNot | fYesOrNo}}</td>
+				<td v-text="item.industry"></td>
+				<td>{{item.payMode | fPayMode}}</td>
+				<td :class="{red:item.info==0,green:item.info==1}">{{item.info | fInfo}}</td>
+				<td class="hasBtn" :class="{red:item.state==0,green:item.state==1}">{{item.state | fOkOrNot}}<a :class="{ show:item.state=='0' }" v-on:click="infoCheck(item.id,index)">查看资料</a></td>
+				<td class="hasBtn" :class="{red:item.examine==0,green:item.examine==1}">{{item.examine | fOkOrNot}}<a :class="{ show:item.state=='1' }" v-on:click="infoCheck(item.id,index)">查看资料</a></td>
+				<td v-text="item.send"></td>
+				<td v-text="item.train"></td>
+				<td v-text="item.numQuestion"></td>
+				<td v-text="item.content"></td>
+				<td v-text="item.memExtend"></td>
+				<td v-text="item.numAD"></td>
+				<td :class="{red:item.share==0,green:item.share==1}">{{item.share | fShare}}</td>
+				<td class="area"><ol v-on:click="showMore(this)"><i v-text="item.remarks"></i><p v-text="item.remarks"></p></ol></td>
+				<td><a class="mod edit" href="javascript:;" v-on:click="modify(index)">修改</a></td>
+			</tr>
+		</table>
+		
+		<!--快捷入口-->
+		<ol class="pEnters">
+			<li><a target="_blank" href="#">大创客登录开店</a></li>
+			<li><a target="_blank" href="#">自由合伙人登录</a></li>
+			<li><a target="_blank" href="#">防伪系统</a></li>
+			<li><a target="_blank" href="#">自由合伙人开通填写资料</a></li>
+			<li><a target="_blank" href="#">公司收款帐号</a></li>
+			<li><a target="_blank" href="info_company.html">公司资料</a></li>
+			<li><a target="_blank" href="info_honor.html">公司荣誉</a></li>
+			<li><a target="_blank" href="html5.html">推广H5链接</a></li>
+			<li><a target="_blank" href="question.html">常见核心问题</a></li>
+			<li><a target="_blank" href="video.html">励志视频</a></li>
+			<li><a target="_blank" href="ad.html">朋友圈广告语</a></li>
+		</ol>
+
+		<!--分页-->
+		<tp-pagination></tp-pagination>
+
+		<!--弹窗覆盖层-->
+		<div class="bgMask"></div>
+
+		<!--弹窗：修改弹窗-->
+		<tp-pop-modify></tp-pop-modify>
+
+		<!--弹窗：查看资料-->
+		<tp-pop-examine></tp-pop-examine>
+
+	</div><!--/pTable-->
+	
+</body>
+
+
+<script src="js/config.js"></script>
+<script src="lib/require.js" data-main="js/app.js"></script>

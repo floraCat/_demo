@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test</title>
+    <link type="text/css" rel="stylesheet" href="../css/m/h_reset.css" />
+    <script type="text/javascript" src="../js/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+
+
+<pre>
+
+<div ng-app="myApp">
+	<h1>Hello {{name}}</h1>
+</div>
+--------------------------------------------------//.run()
+angular.module('myApp',[])
+	.run(function($rootScope,$timeout){
+		$timeout(function(){
+			$rootScope.name='World';
+		},2000);
+	});
+
+<div ng-app="myApp">
+	<div ng-controller="myCtrl">
+		<button ng-click="add(1)">Add</button>
+		<h4>Current count:{{counter}}</h4>
+	</div>
+</div>
+--------------------------------------------------//.controller()
+var myApp=angular.module("myApp",[]);
+myApp.controller("myCtrl",function($scope){
+	$scope.counter=0;
+	$scope.add=function(amount){ $scope+=amount;};
+});
+---------------------
+{{person.name}}
+$scope.person={name:'Ari'};
+---------------------
+
+
+<input ng-model="expr" />
+{{parsedValue}}
+--------------------------------------------------//$watch
+myApp.controller("myCtrl",function($scope,$parse){
+	$scope.$watch('expr',function(newVal,oldVal,scope){
+		if(newVal !== oldVal){
+			var parseFun=$parse(newVal);
+			$scope.parsed=parseFun(scope);
+		}
+	});
+});
+	
+ng-model：输入框数据模型
+服务：
+$scope
+$setTime
+$parse - 解析
+$watch - 监听
+$interpolate - 插值（字符串）
+ng-init
+
+内部指令：
+ng-app
+ng-controller
+ng-model
+ng-include
+ng-view
+ng-repeat
+
+
+
+{{ 'abc' | lowercase | capitalize }}
+--------------------------------------------------//.filter()
+angular.module('myApp', [])
+	.filter('capitalize', function() {
+		return function(input) {
+			if (input) {
+				return input[0].toUpperCase() + input.slice(1);
+			}
+		}
+	});
+---------------------
+表单验证：P30
+
+
+<my-directive></my-directive>
+---------------------
+<div my-directive></div>
+---------------------
+<div class="my-directive"></div>
+---------------------
+<!--directive:my-directive-->
+--------------------------------------------------//.directive()
+myApp.directive("myDirective",function(){
+	return{
+		restrict:'EAC',
+		replace:true,
+		template:'<a href="http://baidu.com">百度</a>'
+	}
+});
+
+
+<div my-directive
+	my-url="http://baidu.comm"
+	my-link-text="百度">
+</div>
+--------------------------------------------------//.directive()
+template:'<a href="{{my-url}}">{{my-link-text}}</a>'
+
+- restrict(字符串)：指令在DOM中以何种形式被声明。E(元素) | A(属性，默认值) | C(类名) | M(注释)
+- 优先级
+- terminal(布尔型)：停止运行当前元素上比本指令优先级低的指令
+- template(字符串或函数)：模板 [解析多行字符串结尾加'\']
+- templateUrl(字符串或函数)：通过Ajax请求的HTML模板文件
+- replace(布尔型)：默认值false意味着模板会被当作子元素插入到调用此指令的元素内部
+- scope(布尔型或对象)：true时scope会从父作用域继承并创建一个新的作用域对象；{}空对象时指令模板就无法访问外部作用域了
+	绑定策略： 
+	> 本地作用域属性：@(or @attr) - 将本地作用域同DOM属性的值进行绑定。指令内部作用域可以使用外部作用域的变量
+	> 双向绑定：=(or =attr) - 将本地作用域上的属性同父级作用域上的属性进行双向的数据绑定。
+	> 父级作用域绑定：&(or &attr) - 对父级作用域进行绑定，以便在其中运行函数。意味着对这个值进行设置时会生成一个指向父级作用域的包装函数
+- transclude：嵌入 [如果设置了，其值必须为true]
+- controller(字符串或函数)：内联的控制器
+- controllerAs(字符串)：控制器的别名
+- require(字符串或数组)：将控制器注入到其值所指定的指令中，并作为当前指令的链接函数的第四个参数
+- link(函数)：创建可以操作DOM的指令
+- compile(对象或函数)：在指令和实时数据被放到DOM中之前进行DOM操作
+	> 互斥p88
+
+
+</pre>
+
+
+
+
+
+<script>
+
+</script>
+
+
+</body>
+</html>

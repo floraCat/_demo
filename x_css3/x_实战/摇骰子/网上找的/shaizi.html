@@ -1,0 +1,209 @@
+<html>
+	<head>
+    	<title>骰子游戏</title>
+        <meta charset="utf-8"/>
+		<script type="text/javascript">
+			// 画布大小
+			var canvasWidth = 400;
+			var canvasHeight = 300;
+			
+			// 骰子大小
+			var diceWidth = 100;
+			var diceHeight = 100;
+			
+			// 骰子位置
+			var diceX = 50;
+			var diceY = 50;
+			
+			// 偏移量，用于绘制不同位置的骰子
+			var dx;
+			var dy;
+			
+			// 点半径
+			var dotRadius = 6;
+			
+			var ctx;
+			
+			var point;
+			var isFirstThrownFlag = true;
+			
+			function btnThrowClickHandler()
+			{
+				var sum = 0; // 记录每一次的两个骰子的和
+				ctx = document.getElementById("canvas").getContext("2d");
+				
+				// 第一个骰子绘制开始
+				var randomNum = Math.floor((Math.random() * 6)) + 1;
+				sum += randomNum;
+				dx = diceX;
+				dy = diceY;
+				draw(randomNum);	
+				
+				randomNum = Math.floor((Math.random() * 6)) + 1;
+				sum += randomNum;
+				dx = diceX + 150;
+				draw(randomNum);
+				
+				if(isFirstThrownFlag)
+				{
+					switch(sum)
+					{
+						case 7:
+						case 11:
+							document.getElementById("txtOutCome").value = "You Win!";
+							break;
+						case 2 :
+						case 3 :
+						case 12:
+							document.getElementById("txtOutCome").value = "You lose!!";	
+							break;
+						default:
+							point = sum;
+							isFirstThrownFlag = false;
+							document.getElementById("txtScore").value = point;
+							document.getElementById("txtStage").value = "Need folloy up throw!!";
+							document.getElementById("txtOutCome").value = "";
+							break;
+					}
+				}
+				else
+				{
+					switch(sum)
+					{
+						case point:
+							document.getElementById("txtOutCome").value = "You Win!!";
+							document.getElementById("txtStage").value = "Back to first throw!!";
+							isFirstThrownFlag = true;
+							document.getElementById("txtScore").value = "";
+							break;	
+						case 7:
+							document.getElementById("txtOutCome").value = "You lose!!";
+							document.getElementById("txtStage").value = "Back to first throw!!";
+							isFirstThrownFlag = true;
+							document.getElementById("txtScore").value = "";
+							break;
+					}
+				}
+			}
+			
+			function draw(num)
+			{
+				// 绘制骰子的矩形外框
+				ctx.lineWidth = 5;
+				ctx.clearRect(dx,dy,diceWidth,diceHeight);
+				ctx.strokeRect(dx,dy,diceWidth,diceHeight);
+				
+				// 设置圆点的颜色
+				ctx.fillStyle = "#009966";
+
+				switch(num)
+				{
+					case 1:
+						draw1();
+						break;
+					case 2:
+						draw2();
+						break;
+					case 3:
+						draw1();
+						draw2();
+						break;
+					case 4:
+						draw4();
+						break;
+					case 5:
+						draw1();
+						draw4();
+						break;
+					case 6:
+						draw2mid();
+						draw4();
+						break;
+					default:
+						break;	
+				}
+			}
+			
+			
+			function draw1()
+			{
+				// 绘制一个点，放到正中间
+				var dotX = dx + diceWidth * 0.5;
+				var dotY = dy + diceHeight * 0.5;
+				ctx.beginPath();
+				ctx.arc(dotX,dotY, dotRadius,0,2 * Math.PI,true);
+				ctx.closePath();
+				ctx.fill();		
+			}
+			
+			function draw2()
+			{
+				// 绘制两个点，一个左上角，一个右下角
+				
+				// 左上点的角圆心
+				var dotX = dx + 3 * dotRadius;
+				var dotY = dy + 3 * dotRadius;
+				
+				ctx.beginPath();
+				ctx.arc(dotX,dotY, dotRadius,0,2 * Math.PI,true);
+				
+				// 右下角点的圆心
+				dotX = dx + diceWidth - 3 * dotRadius;
+				dotY = dy + diceHeight - 3 * dotRadius;
+				
+				ctx.arc(dotX,dotY, dotRadius,0,2 * Math.PI,true);
+				ctx.closePath();
+				ctx.fill();
+			}
+			
+			function draw4()
+			{
+				// 先绘制左上角和右下角
+				draw2();
+				
+				// 绘制右上角
+				var dotX = dx + diceWidth - 3 * dotRadius;
+				var dotY = dy + 3 * dotRadius;
+				
+				ctx.beginPath();
+				ctx.arc(dotX,dotY, dotRadius,0,2 * Math.PI,true);
+				
+				dotX = dx + 3 * dotRadius;
+				dotY = dy + diceHeight - 3 * dotRadius;
+				ctx.arc(dotX,dotY, dotRadius,0,2 * Math.PI,true);
+				ctx.closePath();
+				ctx.fill();
+			}
+			
+			function draw2mid()
+			{
+				// 第二行中间绘制两个点
+				var dotX = dx + 3 * dotRadius;
+				var dotY = dy + 0.5 * diceHeight;
+				ctx.beginPath();
+				ctx.arc(dotX,dotY, dotRadius,0,2 * Math.PI,true);
+				
+				dotX = dx + diceWidth - 3 * dotRadius;
+				ctx.arc(dotX,dotY, dotRadius,0,2 * Math.PI,true);
+				ctx.closePath();
+				ctx.fill();	
+			}
+			
+			
+		</script>
+    </head>
+    <body >
+    	<canvas id="canvas" width="400" height="300">
+        	Sorry,your browser doesn't support Canvas!!!
+        </canvas>
+        
+        <input type="button" value="Throw" onClick="btnThrowClickHandler()"/><br/>
+        <table>
+        	<tr>
+            	<td>Stage:<input type="text" id="txtStage"/></td>
+                <td>Score:<input type="text" id="txtScore"/></td>
+                <td>OutCome:<input type="text" id="txtOutCome"/></td>
+            </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,53 @@
+/*重置样式*/
+body,input,button,select,textarea{ font:12px/24px "Microsoft Yahei",arial,Tahoma,sans-serif; color:#333;}
+body,h1,h2,h3,h4,h5,h6,p,ul,li,ol,dl,dt,dd,form,input,button,textarea{ padding:0; margin:0;}
+ul,ol,li{ list-style-type:none;}
+img,iframe{ border:0;}
+input,button,textarea,select{ border:#ddd 1px solid; outline:none;}
+input,button,textarea{ background:transparent;}
+table{ border-collapse:collapse; border-spacing:0;}
+a{ text-decoration:none; color:#333;}
+a:hover{ color: #e43a3d;}
+h1,h2,h3,h4,h5,h6{ font-size:14px; font-weight:normal;}
+i,em{ font-style:normal;} 
+img,textarea{ vertical-align:top;}
+a img:hover{ opacity:.8;}
+/*html,body{ overflow-x:hidden;}*/
+body{ position:relative;}
+
+
+/*消浮*/
+.clr{ *display: inline-block;}
+.clr:after{ content:"."; display:block; height:0; clear:both; visibility:hidden;}
+
+
+/*背景图*/
+.icon{ background:url(imgs/icons.png)  no-repeat;}
+.i_note{height:12px;width:12px;background-position:0 0;}
+.i_home{height:18px;width:18px;background-position:0 -12px;}
+.i_money{height:30px;width:30px;background-position:0 -30px;}
+.i_name{height:30px;width:30px;background-position:0 -60px;}
+.i_tel{height:30px;width:30px;background-position:0 -90px;}
+.i_mem{height:30px;width:30px;background-position:0 -120px;}
+.i_card{height:30px;width:30px;background-position:0 -150px;}
+.i_addr{height:30px;width:30px;background-position:0 -180px;}
+.i_level{height:30px;width:30px;background-position:0 -210px;}
+.i_id{height:30px;width:30px;background-position:0 -240px;}
+
+.i_quit{ width: 36px; height: 36px; background: url(imgs/i_quit.png) no-repeat; }
+
+/*遮罩层*/
+.pMask{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #333; opacity: .6; }
+
+/*分页*/
+.pPage{ text-align: center; padding: 0 0 28px; }
+.pPage ol{ display: inline-block; }
+.pPage a{ display: inline-block; height: 39px; line-height: 39px; padding: 0 20px; margin-right: 8px; background: #daecf6; font-size: 12px; font-weight: bold; color: #5e6f77; text-align: center; border-radius: 5px;}
+.pPage a:hover,.pPage a.on{ cursor: pointer; height: 37px; line-height: 37px; padding: 0 19px; background: #fff; border: #f1f1f1 1px solid; color: #3e3d5c;}
+.pPage a.hide{ opacity: .3; cursor: not-allowed; }
+.pPage a.hide:hover{ background: #daecf6;}
+
+/*搜索*/
+.mSearch{ float: left; width: 260px; overflow: hidden; margin-right: 28px; }
+.mSearch .key{ cursor: pointer; float: left; width: 200px; height: 23px; line-height: 23px; padding: 5px 7px; background: #6295b3; color: #fff; font-size: 18px; border: none; border-radius: 5px; margin-right: 0!important;}
+.mSearch .submit{ float: right; width: 36px; height: 33px; border: none; text-indent: -9999px; border-radius: 5px; background:#7abadf url(imgs/i_search.png) no-repeat center;  margin-right: 0!important;}

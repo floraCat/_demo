@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+
+<style>
+xmp{ font-family:微软雅黑; font-size:14px; line-height: 26px;}
+</style>
+<xmp>
+cookie：
+------------------------------------------
+</xmp>
+
+<script type="text/javascript">
+	// 设置cookie
+	function setCookie(cname,cvalue,exdays){
+	    var d = new Date();
+	    d.setTime(d.getTime()+(exdays*24*60*60*1000));
+	    var expires = "expires="+d.toGMTString();
+	    document.cookie = cname+"="+cvalue+"; "+expires;
+	}
+	// 获取cookie
+	function getCookie(cname){
+	    var name = cname + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0; i<ca.length; i++) {
+	        var c = ca[i].trim();
+	        if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
+	    }
+	    return "";
+	}
+	// 清空cookie
+	function clearCookie(){ 
+		var keys=document.cookie.match(/[^ =;]+(?=\=)/g); 
+		if (keys) { 
+			for (var i = keys.length; i--;) {
+				document.cookie=keys[i]+'=0;expires=' + new Date( 0).toUTCString() 
+			}
+		} 
+	} 
+
+	// clearCookie();
+	setCookie('a1',333);
+	setCookie('a2',2);
+	document.write('document.cookie：');
+	document.write(document.cookie); // a1=111; a2=2
+	document.write('<br/><br/>');
+	document.write('getCookie("a1")：');
+	document.write(getCookie('a1')); // 111
+
+</script>
+
+</body>
+</html>

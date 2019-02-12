@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<field name="css">
+		<style>
+			.test1{ width:100px;}
+		</style>
+	</field>
+	<field name="html">
+		<div class="test1">
+			<li>111</li>
+			<li>222</li>
+		</div>
+	</field>
+</list>

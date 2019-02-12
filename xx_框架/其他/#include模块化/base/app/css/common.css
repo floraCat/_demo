@@ -1,0 +1,17 @@
+/*要求只兼容到ie8*/
+/*整站色调*/
+/*主色*/
+/*字体颜色*/
+/*浅背景色*/
+/*常用样式*/
+/*文本超出省略号*/
+/*css3兼容*/
+.header {
+  float: left;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test</title>
+    <link type="text/css" rel="stylesheet" href="../../css/m/h_reset.css" />
+    <script type="text/javascript" src="../../js/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+
+<div id="test">test5</div>
+
+
+<a class="ajax-test" onclick="window.open('_test.html','_blank')">ajax-test</a>
+
+<!-- <a href="javascript:void(0)" onclick="window.open()">aaa</a> -->
+<script>
+
+$(".ajax-test").click(function(){
+
+	$.ajax({
+		url:"xml.xml",
+		success:function(result){
+
+			var css=$(result).find("field[name='css']").html();
+			var html=$(result).find("field[name='html']").html();
+			var data=css+html;
+			$("#test").text(data);
+
+	//var tempwindow=window.open('_test.html','_blank'); 
+
+		}
+	});
+
+});
+
+	$.ajax({
+		url:"xml.xml",
+		success:function(result){
+			//var tempwindow=window.open('_blank'); 
+			
+
+			// $(".ajax-test").on("click",function(){
+			// 	var obj = window.open("_test.html","_blank");
+			// });
+
+			// $(".ajax-test").trigger("click");
+			
+			//tempwindow.location='http://www.baidu.com';
+
+// var w=window.open();
+// setTimeout(function(){
+// w.location="http://www.baidu.com";
+// }, 1000);
+// return false;
+
+
+
+		}
+	});
+
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <meta charset="UTF-8">
+      <title>webSocket</title>
+      <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+	  <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+	webSocket测试：
+	<p><input type="text" value="" v-model="curMes"/></p>
+	<p @click="handle()">发送</p>
+	<div v-html="mesRes"></div>
+</div>
+
+<script>
+	Vue.prototype.axios = axios
+	new Vue({
+		el: '#app',
+		data: {
+			ws: null,
+			curMes: '',
+			mesOpen: "I'm client",
+			mesRes:''
+		},
+		mounted () {
+			this.creatSocket();
+		},
+		methods: {
+			creatSocket () {
+				let self = this;
+				this.ws = new WebSocket("ws://127.0.0.1:3003/");    
+				this.ws.onopen = function() {    
+				   alert("Opened");    
+				   self.ws.send(self.mesOpen); 
+				   self.mesRes += '##### Client sended: ' + self.mesOpen + '</br>';   
+				};    
+				this.ws.onmessage = function (evt) {     
+				    self.mesRes += '##### ' + evt.data + '</br>';    
+				};    
+				this.ws.onclose = function() {    
+				   console.log("Closed");    
+				};    
+				this.ws.onerror = function(err) {    
+				   console.log("Error: " + err);    
+				};
+			},
+			handle () {
+				this.ws.send(this.curMes);
+				this.mesRes += '##### Client sended: ' + this.curMes + '</br>';
+			}
+		}
+	})
+</script>
+
+</body>
+</html>

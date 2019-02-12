@@ -1,0 +1,25 @@
+﻿[
+        {
+        "id":"001",
+        "time":"2017/05/12",
+        "name":"司徒某某",
+        "follow":"1",
+        "city":"呼和浩特",
+        "level":"自由合伙人",
+        "recom":"刘1-换页了",
+        "payOrNot":"1",
+        "industry":"金融行业",
+        "payMode":"1",
+        "info":"1",
+        "state":"0",
+        "examine":"0",
+        "send":"xxx",
+        "train":"aaa",
+        "numQuestion":0,
+        "content":"aaa",
+        "memExtend":0,
+        "numAD":0,
+        "share":"0",
+        "remarks":"xxx"
+        }
+]

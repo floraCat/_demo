@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+
+<style>
+xmp{ font-family:微软雅黑; font-size:14px; line-height: 26px;}
+</style>
+<xmp>
+sessionStorage：
+- 数据只在一次对话中保存，刷新变量会累加，但关闭浏览器变量会重置为1
+------------------------------------------
+</xmp>
+
+<div id="div"></div>
+
+<script type="text/javascript">
+
+	if (sessionStorage && sessionStorage.test_session) {
+		sessionStorage.test_session++;
+	} else {
+		sessionStorage.test_session = 1;
+	}
+	document.getElementById('div').innerHTML = sessionStorage.test_session;
+
+</script>
+
+</body>
+</html>

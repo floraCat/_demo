@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://www.html5tricks.com/demo/html5-3d-cube-image/index.html -->
+<html class=" -webkit-"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<title>页面标题</title>
+    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+
+  <style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+
+body {
+   width:100%; 
+   min-width:320px; 
+   max-width:640px; 
+   margin:0 auto;
+   background:url(images/bg.jpg) no-repeat center 0;
+}
+
+.space3d {
+  perspective: 1000px;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  display: inline-block;
+  margin:70px 0 40px -50px;
+  position:absolute;
+  left:50%;
+}
+
+._3dbox {
+  display: inline-block;
+  transition: all 0.5s cubic-bezier(0.675, 1.385, 0.82, 1.775) /*ease-in-out*/;
+ -webkit-transition:all .85s cubic-bezier(0.675, 1.385, 0.82, 1.775); 
+ -moz-transition:all .5s cubic-bezier(0.675, 1.385, 0.82, 1.775); 
+ -o-transition:all .5s cubic-bezier(0.675, 1.385, 0.82, 1.775); 
+ -ms-transition:all .5s cubic-bezier(0.675, 1.385, 0.82, 1.775);
+  text-align: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+-webkit-transform-style: preserve-3d;
+-ms-transform-style: preserve-3d;
+-o-transform-style: preserve-3d;
+-moz-transform-style: preserve-3d;
+
+
+  transform: rotateX(-15deg) rotateY(15deg);
+-webkit-transform: rotateX(-15deg) rotateY(15deg);
+-ms-transform: rotateX(-15deg) rotateY(15deg);
+-o-transform: rotateX(-15deg) rotateY(15deg);
+-moz-transform: rotateX(-15deg) rotateY(15deg);
+}
+
+._3dface {
+  overflow: hidden;
+  position: absolute;
+  background: #FFF;
+  color: #333;
+  line-height: 100px;
+  opacity: 1;
+  border-radius:5px;
+}
+
+._3dface--front {
+  width: 100px;
+  height: 100px;
+  transform: translate3d(0, 0, 50px);
+-webkit-transform: translate3d(0, 0, 50px);
+-ms-transform: translate3d(0, 0, 50px);
+-o-transform: translate3d(0, 0, 50px);
+-moz-transform: translate3d(0, 0, 50px);
+}
+
+._3dface--top {
+  width: 100px;
+  height: 100px;
+  transform: rotateX(90deg) translate3d(0, 0, 50px);
+-webkit-transform: rotateX(90deg) translate3d(0, 0, 50px);
+-ms-transform: rotateX(90deg) translate3d(0, 0, 50px);
+-o-transform: rotateX(90deg) translate3d(0, 0, 50px);
+-moz-transform: rotateX(90deg) translate3d(0, 0, 50px);
+}
+
+._3dface--bottom {
+  width: 100px;
+  height: 100px;
+  transform: rotateX(-90deg) translate3d(0, 0, 50px);
+-webkit-transform: rotateX(-90deg) translate3d(0, 0, 50px);
+-ms-transform: rotateX(-90deg) translate3d(0, 0, 50px);
+-o-transform: rotateX(-90deg) translate3d(0, 0, 50px);
+-moz-transform: rotateX(-90deg) translate3d(0, 0, 50px);
+}
+
+._3dface--left {
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  margin-left: -50px;
+  transform: rotateY(-90deg) translate3d(0, 0, 50px);
+-webkit-transform: rotateY(-90deg) translate3d(0, 0, 50px);
+-ms-transform: rotateY(-90deg) translate3d(0, 0, 50px);
+-o-transform: rotateY(-90deg) translate3d(0, 0, 50px);
+-moz-transform: rotateY(-90deg) translate3d(0, 0, 50px);
+}
+
+._3dface--right {
+  width: 100px;
+  height: 100px;
+  left: 50%;
+  margin-left: -50px;
+  transform: rotateY(90deg) translate3d(0, 0, 50px);
+-webkit-transform: rotateY(90deg) translate3d(0, 0, 50px);
+-ms-transform: rotateY(90deg) translate3d(0, 0, 50px);
+-o-transform: rotateY(90deg) translate3d(0, 0, 50px);
+-moz-transform: rotateY(90deg) translate3d(0, 0, 50px);
+}
+
+._3dface--back {
+  width: 100px;
+  height: 100px;
+  transform: rotateY(180deg) translate3d(0, 0, 50px);
+-webkit-transform: rotateY(180deg) translate3d(0, 0, 50px);
+-ms-transform: rotateY(180deg) translate3d(0, 0, 50px);
+-o-transform: rotateY(180deg) translate3d(0, 0, 50px);
+-moz-transform: rotateY(180deg) translate3d(0, 0, 50px);
+}
+
+._3dface--front {
+  background: url(images/1.png);
+  background-size: 100%;
+}
+
+._3dface--left {
+  background: url(images/2.png);
+  background-size: auto 100%;
+}
+
+._3dface--right {
+  background: url(images/3.png);
+  background-size: auto 100%;
+}
+
+._3dface--top {
+  background: url(images/4.png);
+  background-size: auto 100%;
+}
+
+._3dface--bottom {
+  background: url(images/5.png);
+  background-size: auto 100%;
+}
+
+._3dface--back {
+  background: url(images/6.png);
+  background-size: auto 100%;
+}
+
+
+
+.mWrap{ height:300px; padding-top:160px;}
+.btnW{ position:fixed; bottom:30px; left:0; width:100%;}
+.mBtn{ display:block; width:140px; height:49px; line-height:49px; background:url(images/btn.png) no-repeat; background-size:100% auto; font-family:微软雅黑; font-size:24px; letter-spacing:10px; color:#fff; text-align:center; margin:0 auto; opacity:.6;}
+.mBtn.on{ opacity:1; cursor:pointer;}
+</style>
+
+
+</head>
+
+<body>
+
+
+<div class="mWrap">
+
+<div class="space3d">
+
+    <div class="_3dbox">
+      <div class="_3dface _3dface--front"></div>
+      <div class="_3dface _3dface--top"></div>
+      <div class="_3dface _3dface--bottom"></div>
+      <div class="_3dface _3dface--left"></div>
+      <div class="_3dface _3dface--right"></div>
+      <div class="_3dface _3dface--back"></div>
+    </div>
+
+</div>
+
+<br><br>
+
+
+</div>
+
+<div class="btnW"><a class="mBtn on">开始</a></div>
+
+
+<script>
+$(function(){
+	$(".mBtn").delegate("","click",function(){
+		if($(this).hasClass("on")){
+			$(this).removeClass("on");
+			var Num = Math.floor(Math.random()*6)+1;
+			
+			function Ani(){
+				var t1=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(-90deg)"});
+				},0);
+				var t2=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(180deg)"});
+				},300);
+				var t3=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(90deg)"});
+				},600);
+				var t4=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(180deg)"});
+				},900);
+				var t5=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(180deg)"});
+				},1200);
+				var t6=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(90deg)"});
+				},1500);
+			}
+			
+			if(Num==1){
+				Ani();
+				var t=setTimeout(function(){
+					$(".space3d ._3dbox").css({"transform":"rotateY(0deg)"})
+				},1700);
+				var t=setTimeout(function(){
+					$(".mBtn").addClass("on");
+					alert("你摇到的是1");
+				},2800);
+			}
+			if(Num==2){
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(90deg)"})
+				},1700);
+				var t=setTimeout(function(){
+					$(".mBtn").addClass("on");
+					alert("你摇到的是2");
+				},2800);
+			}
+			if(Num==3){
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(-90deg)"})
+				},1700);
+				var t=setTimeout(function(){
+					$(".mBtn").addClass("on");
+					alert("你摇到的是3");
+				},2800);
+			}
+			if(Num==4){
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(-90deg)"})
+				},1700);
+				var t=setTimeout(function(){
+					$(".mBtn").addClass("on");
+					alert("你摇到的是4");
+				},2800);
+			}
+			if(Num==5){
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(90deg)"})
+				},1700);
+				var t=setTimeout(function(){
+					$(".mBtn").addClass("on");
+					alert("你摇到的是5");
+				},2800);
+			}
+			if(Num==6){
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(180deg)"})
+				},1700);
+				var t=setTimeout(function(){
+					$(".mBtn").addClass("on");
+					alert("你摇到的是6");
+				},2800);
+			}
+		}
+	});
+});
+</script>
+
+</body></html>

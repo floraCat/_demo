@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test</title>
+</head>
+<body>
+
+
+<style>
+@keyframes myfirst
+{
+	from {left:0px;} /* 0% */
+	to {left:200px;} /* 100% */
+}
+@-moz-keyframes myfirst /* Firefox */
+{
+	from {left:0px;}
+	to {left:200px;}
+}
+@-webkit-keyframes myfirst /* Safari 和 Chrome */
+{
+	from {left:0px;}
+	to {left:200px;}
+}
+@-o-keyframes myfirst /* Opera */
+{
+	from {left:0px;}
+	to {left:200px;}
+}
+
+.test{
+	width:100px;height:100px;margin:30px;background: #333; position: relative;
+	-webkit-animation: myfirst 4s linear 1s infinite; 
+	animation: myfirst 4s linear 1s infinite;
+}
+</style>
+
+动画(animation)：
+
+<div class="test"></div>
+
+<p>--------------------------------</p>
+<pre style="font-family: '微软雅黑'; font-size: 16px; line-height: 26px;">
+@keyframes myfirst
+{
+	from {left:0px;} /* 0% */
+	to {left:200px;} /* 100% */
+}
+@-moz-keyframes myfirst /* Firefox */
+{
+	from {left:0px;}
+	to {left:200px;}
+}
+@-webkit-keyframes myfirst /* Safari 和 Chrome */
+{
+	from {left:0px;}
+	to {left:200px;}
+}
+@-o-keyframes myfirst /* Opera */
+{
+	from {left:0px;}
+	to {left:200px;}
+}
+
+.test{
+	-webkit-animation: myfirst 4s linear 1s infinite; 
+	        animation: myfirst 4s linear 1s infinite;
+}
+</pre>
+
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html> 
+<html lang="zh-cn"> 
+<head> 
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title></title> 
+<style type="text/css"> 
+*{ 
+height: 100%; //设置高度，不然会显示不出来 
+} 
+</style> 
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> 
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4BAIBjDelhAKL8xqsytzySNtR4AEePA4"></script> 
+<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script> 
+<script> 
+$(function(){ 
+	navigator.geolocation.getCurrentPosition(translatePoint,showError); //定位 
+}); 
+function translatePoint(position){ 
+	var currentLat = position.coords.latitude; 
+	var currentLon = position.coords.longitude; 
+	var gpsPoint = new BMap.Point(currentLon, currentLat); 
+	BMap.Convertor.translate(gpsPoint, 0, initMap); //转换坐标 
+} 
+function showError(error){
+	switch(error.code) {
+		case error.PERMISSION_DENIED:
+			alert("定位失败,用户拒绝请求地理定位");
+			break;
+		case error.POSITION_UNAVAILABLE:
+			alert("定位失败,位置信息是不可用");
+			break;
+		case error.TIMEOUT:
+			alert("定位失败,请求获取用户位置超时");
+			break;
+		case error.UNKNOWN_ERROR:
+			alert("定位失败,定位系统失效");
+			break;
+    }
+}
+function initMap(point){ 
+	//初始化地图 
+	map = new BMap.Map("map"); 
+	map.addControl(new BMap.NavigationControl()); 
+	map.addControl(new BMap.ScaleControl()); 
+	map.addControl(new BMap.OverviewMapControl()); 
+	map.centerAndZoom(point, 15); 
+	map.addOverlay(new BMap.Marker(point)) 
+} 
+</script> 
+</head> 
+<body> 
+<xmp>
+-------------------------------------------
+错误提示：
+	没选择共享地理位置 -> 提示‘定位失败,用户拒绝请求地理定位’
+	无法获取当前位置 -> 提示 ‘定位失败,位置信息是不可用’
+	超时 -> 提示‘定位失败,请求获取用户位置超时’
+	不明错误 -> 提示‘定位失败,定位系统失效’
+-------------------------------------------
+</xmp>
+<div id="map"></div> 
+</body> 
+</html> 

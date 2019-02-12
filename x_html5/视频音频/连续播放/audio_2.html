@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+  <audio id="myaudio"></audio>
+ </body>
+ <script>
+ window.onload = function() { 
+
+    //mp3文件名
+    var mp3List = [
+            '安居乐业',
+            '安然无恙',
+            '安身立命'
+    ],
+        //文件路径
+        baseUrl = '../static/mp3/';
+     
+    var oAudio = document.getElementById('myaudio');
+    canPlay(playAudio);
+
+    function getMusic(list) {
+        var mp3Cur = mp3List.shift();
+        if(mp3Cur) {
+            music = baseUrl + mp3Cur + '.mp3';
+            return music;
+        } else {
+            return false;
+        }
+    }
+    
+    function canPlay(callback) {
+        var currentFile = getMusic(mp3List);
+        try {
+            var audio = new Audio();
+            audio.src = currentFile;
+            audio.oncanplay = function() {
+                callback(currentFile);
+            }
+        }catch(e){
+            callback(false, e);
+        }
+    }
+     
+    function playAudio(currentFile) {
+        if (window.HTMLAudioElement && currentFile) {
+            try {
+                oAudio.src = currentFile;
+                if (oAudio.paused) {
+                    oAudio.play();
+                }
+                function endedHandler() {
+                    var _file = JSON.parse(JSON.stringify(getMusic(mp3List)));
+                    if (_file) {
+                        oAudio.src = _file; 
+                        oAudio.play();
+                    } else {
+                        oAudio.src = baseUrl + '播放完毕.mp3'; 
+                        oAudio.play();
+                        oAudio.removeEventListener('ended',endedHandler,false);
+                    }
+                }
+                oAudio.addEventListener('ended', endedHandler, false); 
+
+            }
+            catch (e) {
+                if(window.console && console.error("Error:" + e));
+            }
+        }
+    }
+ }
+ </script>
+</html>

@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>自定义点标记内容</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <style type="text/css">
+        .amap-marker .marker-route {
+            position: absolute;
+            width: 40px;
+            height: 44px;
+            color: #e90000;
+            background: url(http://webapi.amap.com/theme/v1.3/images/newpc/poi-1.png) no-repeat;
+            cursor: pointer;
+        }
+        .amap-marker .marker-marker-bus-from {
+            background-position: -254px -170px;
+        }
+        .spec {
+          background-position: -275px -95px!important;
+        }
+
+        /*搜索框*/
+        .mySearch {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: #fff;
+        }
+
+
+         .panel{
+            position: absolute;
+            top:215px!important;
+            right: 15px;
+        }
+        .qrcodetxt{
+            background-color: #0D9BF2;
+            padding: 6px;
+            color: white;
+        }
+        .center{
+            position: absolute;
+            width: 100%;
+            bottom: 24px;
+        }
+        .btmtip {
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #0D9BF2;
+            padding: 6px;
+            width: 160px;
+            color: white;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&key=097df30d3c87e0a6fcc54ba7bfae491b&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.Walking,AMap.ToolBar"></script>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="qrcode.min.js"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<div id="tip"></div>
+<!--搜索框-->
+<div class="mySearch">
+  <div class="point">
+    <input type="text" name="keyword" placeholder="输入要搜索的地点" />
+    <a class="submit" href="javascript:;">搜索</a>
+  </div>
+  <a class="lineKey" name="router" href="javascript:;">路线规划</a>
+  <div class="route">
+    <p class="start">
+      <input type="text" placeholder="起点" />
+      <a href="javascript:;">点选</a>
+    </p>
+    <p class="end">
+      <input type="text" placeholder="终点" />
+      <a href="javascript:;">点选</a>
+    </p>
+    <a class="submit" href="javascript:;">显示路线</a>
+  </div>
+</div>
+
+<!-- <div class="panel" id='bitmap' style='top:15px'>
+    <img src="http://a.amap.com/lbs/static/img/js-walkingonapp.png" style='width:120px;height:120px'>
+    <div class='qrcodetxt' style='text-align: center'>手机扫码打开demo</div>
+</div> -->
+
+<style>
+#qrcode{ width: 120px; height: 150px; }
+#qrcode img { width: 120px; height: 120px;}
+</style>
+<div id="qrcode" style="position: absolute; top: 200px; right: 100px; z-index: 999;">
+    <div class='qrcodetxt' style='text-align: center; position: absolute; left: 0; bottom: 0; width: 100%;'>手机扫码打开</div>
+</div>
+
+<script type="text/javascript">
+
+    var curFloor = '1F';
+
+    var marker = {
+        '3F':[],
+        '2F':[],
+        '1F':[],
+        'B1':[],
+    };
+
+    var centerPoint = [113.3033162355,23.3873989668]; //中心点坐标
+    var map = new AMap.Map("container", {
+        resizeEnable: true,
+        center: centerPoint,
+        zoom: 18, //地图显示的缩放级别
+    });   
+    map.on('indoor_create',function(e){
+        console.log('map.indoorMap');
+        console.log(e);
+        map.indoorMap.showIndoorMap('B00140NZIQ',1);
+        floorPoint(points['1F'])
+    })
+
+    /*-------自定义定点----*/
+    var curPoint = [113.3023162355,23.3863989668];
+    var points = {
+        '3F': [
+            [113.3033162355,23.3873989663],
+            [113.3023162355,23.3863989663],
+            [113.3029162355,23.3869989663]
+        ],
+        '2F': [
+            [113.3023162355,23.3873989662],
+            [113.3023162355,23.3863989662],
+            [113.3029162355,23.3869989662]
+        ],
+        '1F': [
+            [113.3033162355,23.3863989661],
+            [113.3023162355,23.3863989661],
+            [113.3029162355,23.3869989661]
+        ],
+        'B1': [
+            [113.3033162355,23.3873989668],
+            [113.3023162355,23.3863989668],
+            [113.3029162355,23.3869989668]
+        ]
+      
+    }; 
+
+
+    /*各楼岑楼梯*/
+    var floorStairs = {
+        '3F': [
+            [113.3036162355,23.3870989668],
+            [113.3033162355,23.3810989668]
+        ],
+        '2F': [
+            [113.3036162355,23.3870989668],
+            [113.3033162355,23.3810989668]
+        ],
+        '1F': [
+            [113.3036162355,23.3870989668],
+            [113.3033162355,23.3810989668]
+        ],
+        'B1': [
+            [113.3036162355,23.3870989668],
+            [113.3033162355,23.3810989668]
+        ]
+    };
+   
+    function distCompute (coord1, coord2) {
+        return Math.sqrt(Math.pow((coord1[0]-coord2[0]),2)+Math.pow((coord1[1]-coord2[1]),2));
+    }
+
+    var cacheRoute = {
+        floor: null,
+        callback: function () {}
+    }
+
+    window.onload = function () {
+        setTimeout(function () {
+            /*楼层切换*/
+            $(".amap-indoormap-floorbar-control .floor-list li").on('click',function () {
+                var prevFloor = curFloor;
+                floorPointRemove(marker[prevFloor]);
+                curFloor = $(this).text();
+                floorPoint(points[curFloor]);
+                console.log('----curFloor:' + curFloor);
+                if (cacheRoute.floor) {
+                    cacheRoute.callback();
+                }
+            });
+        }, 1000);
+         
+            
+    }
+
+
+    function addPoint(point) {
+      return new AMap.Marker({ //添加自定义点标记
+        map: map,
+        position: point, //基点位置
+        // offset: new AMap.Pixel(-17, -42), //相对于基点的偏移位置
+        draggable: true,  //是否可拖动
+        content: '<div class="marker-route marker-marker-bus-from"></div>'   //自定义点标记覆盖物内容
+      });
+    }
+    function addPointSpec(point) {
+      return new AMap.Marker({ //添加自定义点标记
+        map: map,
+        position: point, //基点位置
+        // offset: new AMap.Pixel(-17, -42), //相对于基点的偏移位置
+        draggable: true,  //是否可拖动
+        content: '<div class="marker-route marker-marker-bus-from spec"></div>'   //自定义点标记覆盖物内容
+      });
+    }
+
+    /*test geolocation*/
+    function floorPoint(_points) {
+        for (var i = 0; i < _points.length; i ++) {
+          if (_points[i] === curPoint) {
+            marker[curFloor][i] = addPointSpec(_points[i]);
+          }else {
+            marker[curFloor][i] = addPoint(_points[i]);
+          }
+        }
+    }
+    function floorPointRemove(_points) {
+        
+        for (var i = 0; i < _points.length; i ++) {
+            console.log('move');
+            console.log(_points[i]);
+          map.remove(_points[i]);
+        }
+    }
+
+        
+
+
+
+(function() {
+    /*二维码*/
+    new QRCode(document.getElementById("qrcode"), "http://www.baidu.com");
+}
+)();
+
+
+/*-----------------搜索point-----*/
+document.querySelector(".mySearch .point .submit").addEventListener('click',function(){
+    var keyword = document.querySelector(".mySearch .point input[name = keyword]").value;
+    var placeSearch = new AMap.PlaceSearch({
+        map: map
+    });
+    placeSearch.searchNearBy(keyword, centerPoint, 2000, function(status, result) {
+        console.log('this');
+        console.log(this);
+        console.log(result);
+        var list = result.poiList.pois;
+        for (var i = 0; i < list.length; i ++) {
+            if (list[i].indoor_data.truefloor !== curFloor) {
+                placeSearch.L.clear();
+                // console.log();
+            }
+        }
+
+    });
+});
+
+
+
+/*-----------------路线规划-----*/
+var startFloor = '1F';
+var endFloor = '1F';
+var startPoint = 0;
+var endPoint = 0;
+// var curStairs = null;
+
+document.querySelector(".mySearch .route .start").addEventListener('click',function () {
+    map.on('click', clickStart);
+});
+document.querySelector(".mySearch .route .end").addEventListener('click',function () {
+    map.on('click', clickEnd);
+});
+
+document.querySelector(".mySearch .route .submit").addEventListener('click',function () {
+    var walking = new AMap.Walking({
+        map: map
+    }); 
+    console.log('startFloor:' +startFloor);
+    if (startFloor !== endFloor) {
+        for (var k in floorStairs) {
+            if (k === startFloor) {
+                console.log('startFloor = ' +k);
+                var minDist = 10000;
+                var index = 0;
+                for (var i = 0; i < floorStairs[k].length; i ++) {
+                    var temp = distCompute(floorStairs[k][i],startPoint);
+                    console.log('temp:' + temp);
+                    if (temp < minDist) {
+                        minDist = temp;
+                        index = i;
+                    }
+                }
+                addPoint(floorStairs[k][index]);
+                console.log('floorStairs[k][i]');
+                console.log(floorStairs[k][index]);
+
+                console.log('startPoint');
+                console.log(startPoint);
+
+                // curStairs = floorStairs[k][index];
+                cacheRoute.floor = 'endFloor';
+                cacheRoute.callback = function () {
+                    walking.search(floorStairs[k][index], endPoint);
+                }
+                walking.search(startPoint, floorStairs[k][index]);
+                 map.indoorMap.showIndoorMap('B00140NZIQ',1);
+                // walking.search([113.302033, 23.38724],[113.3036162355, 23.3870989668]);
+            }
+        }
+    } else {
+        walking = new AMap.DragRoute(map, path, AMap.DrivingPolicy.LEAST_FEE);
+        walking.search(startPoint, endPoint);
+    }
+    
+     // map.addControl(new AMap.ToolBar());
+
+
+
+
+});
+function clickStart(e) {
+    startFloor = curFloor;
+    console.log('----startFloor：' + startFloor);
+    addPoint([e.lnglat.getLng() , e.lnglat.getLat()]);
+    document.querySelector(".mySearch .route .start input").value = e.lnglat.getLng() +','+ e.lnglat.getLat();
+    startPoint = [e.lnglat.getLng() , e.lnglat.getLat()];
+    map.off('click', clickStart);
+}
+function clickEnd(e) {
+    endFloor = curFloor;
+    console.log('----endFloor' + endFloor);
+    addPoint([e.lnglat.getLng() , e.lnglat.getLat()]);
+    document.querySelector(".mySearch .route .end input").value = e.lnglat.getLng() +','+ e.lnglat.getLat();
+    endPoint = [e.lnglat.getLng() , e.lnglat.getLat()];
+    map.off('click', clickEnd);
+}
+    
+
+    /*---------------------地理定位----------------*/
+    var geolocation;
+    map.plugin('AMap.Geolocation', function() {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition:'RB'
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+    });
+    //解析定位结果
+    function onComplete(data) {
+        var str=['定位成功'];
+        str.push('经度：' + data.position.getLng());
+        str.push('纬度：' + data.position.getLat());
+        if(data.accuracy){
+             str.push('精度：' + data.accuracy + ' 米');
+        }//如为IP精确定位结果则没有精度信息
+        str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
+        document.getElementById('tip').innerHTML = str.join('<br>');
+    }
+    //解析定位错误信息
+    function onError(data) {
+        document.getElementById('tip').innerHTML = '定位失败';
+    }
+</script>
+</body>
+</html>

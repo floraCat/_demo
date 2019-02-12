@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hello, World</title>
+    <style type="text/css">
+        html,body{ position: relative; width:100%; height: 100%; max-width: 640px; min-width: 320px; margin:0 auto;}
+        #container{ width:100%; height: 100%;}
+        #btn{ display: block; position: absolute; top: 15px; right: 15px; font-size: 12px; text-decoration: none; width: 60px; height: 30px; line-height: 30px; background: #c71010; color:#fff; border: #ddd 1px solid; text-align: center; }
+        #mask{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #eee; opacity: 0.9; }
+        #desc{ display: none; }
+    </style>
+    <script src="http://www.notebook3.com/html5geo/js/jquery-2.2.0.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4BAIBjDelhAKL8xqsytzySNtR4AEePA4"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+
+</head>
+<body>
+    <div id="container">
+
+
+
+ <div id="allmap">&nbsp;</div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <input id="lng" type="hidden" runat="server" />
+    <input id="lat" type="hidden" runat="server" />
+    
+
+<script type="text/javascript">
+
+    // 百度地图API功能
+    var map = new BMap.Map('allmap');
+    var poi = new BMap.Point(113.329773, 23.123912);
+    map.centerAndZoom(poi, 15);
+    map.enableScrollWheelZoom();
+
+    var marker = new BMap.Marker(poi); //创建marker对象
+    marker.enableDragging(); //marker可拖拽
+    marker.addEventListener("click", function (e) {
+        searchInfoWindow.open(marker);
+    })
+    map.addOverlay(marker); //在地图中添加marker
+    //样式1
+    var searchInfoWindow1 = new BMapLib.SearchInfoWindow(map, "信息框1内容", {
+        title: "信息框1", //标题
+        panel: "panel", //检索结果面板
+        enableAutoPan: true, //自动平移
+        searchTypes: [
+            BMAPLIB_TAB_FROM_HERE, //从这里出发
+            BMAPLIB_TAB_SEARCH   //周边检索
+        ]
+    });
+    function openInfoWindow1() {
+        searchInfoWindow1.open(new BMap.Point(116.319852, 40.057031));
+    }
+    map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_SMALL}));
+
+
+    //专家微信号
+    $('.aboutcode').click(function () {
+        if (!$(this).find('.code').is(':hidden')) {
+            $(this).find('.code').slideUp();
+        }
+        else {
+            $(this).find('.code').slideDown();
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            } else {
+                event.cancelBubble = true;
+            }
+            document.onclick = function (event) {//对document绑定一个影藏Div方法
+                $('.aboutcode .code').slideUp();
+            }
+            event.stopPropagation();//阻止事件向上冒泡
+            $('.code').onclick = function (event) {
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                } else {
+                    event.cancelBubble = true;
+                }
+            }
+        }
+    });
+</script>
+
+
+    </script>
+  </body>
+</html>

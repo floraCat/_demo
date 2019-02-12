@@ -1,0 +1,24 @@
+<html ng-app="myApp">
+	<head>
+		<meta charset="utf-8">
+		<script src="js/angular.min.js"></script>
+		<script src="js/test.js"></script>
+	</head>
+	<body>
+
+<style>
+.primary, .secondary {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+</style>
+
+<div ng-controller="parentController">    
+    <button-bar>
+        <button class="primary" ng-click="onPrimary1Click()">{{primary1Label}}</button>
+        <button class="primary">Primary2</button>
+    </button-bar>
+</div>
+
+	</body>
+</html>

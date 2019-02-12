@@ -1,0 +1,45 @@
+.eFoot {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  width: 100%;
+  height: 52px;
+  padding: 6px 0;
+  background: #fff;
+  box-shadow: 1px 5px 15px rgba(50, 50, 50, 0.3); }
+  .eFoot li {
+    position: relative;
+    flex: 1;
+    text-align: center;
+    border-right: #eee 1px solid; }
+    .eFoot li.on p {
+      color: #ec5151; }
+  .eFoot a {
+    color: #aaa; }
+    .eFoot a.router-link-exact-active p {
+      color: #ec5151; }
+  .eFoot span {
+    display: block;
+    height: 30px; }
+    .eFoot span img {
+      position: absolute;
+      width: 20px;
+      left: 50%;
+      top: 10%;
+      margin-left: -10px; }
+  .eFoot p {
+    font-size: 11px;
+    line-height: 20px; }
+  .eFoot .num {
+    position: absolute;
+    top: -8px;
+    left: 30%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+    font-style: normal;
+    background: #ec5151;
+    border-radius: 10px; }

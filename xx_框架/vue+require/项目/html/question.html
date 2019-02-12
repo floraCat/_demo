@@ -1,0 +1,159 @@
+
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>售后维护系统 - 全民易购 - 常用问题</title>
+	<link rel="stylesheet" href="css/h_reset.css" />
+	<link rel="stylesheet" href="css/lib_list.css" />
+</head>
+
+<body>
+
+	<ol class="libList pQuest">
+		<h1>常用问题库</h1>
+
+		<!--搜索-->
+		<tp-search></tp-search>
+
+		<div class="add">
+			<h5>添加问题：</h5>
+			<form class="formAdd" id="formQues" method="post">
+				<dl>
+					<dt><input class="ttl" type="text" placeholder="请输入问题的标题" v-model="itemAdd.title" /></dt>
+					<dd><textarea class="cont" placeholder="请输入问题的答案" v-model="itemAdd.content"></textarea></dd>
+				</dl>
+				<input type="button" class="submit" value="提交" v-on:click="addHandle" />
+			</form>
+		</div>
+
+		<!--列表-->
+		<ul class="list clr">
+			<dl v-for="item in items">
+				<dt><p v-text="item.title"></p><a href="javascript:;" data-j-copy>复制答案</a></dt>
+				<dd class="copy" v-text="item.content"></dd>
+			</dl>
+		</ul>
+
+		<!--复制成功效果-->
+		<div class="g-mask"></div>
+		<div class="g-pop-copy">已复制到剪切板！</div>
+
+		<!--分页-->
+		<tp-pagination></tp-pagination>
+
+	</ol>
+
+
+
+</body>
+
+
+
+<script src="js/config.js"></script>
+<script src="lib/require.js"></script>
+
+<script>
+
+//资源配置
+require.config(requireConf);
+
+window.vueState='material';
+
+require(['vue','store','jquery','funs','zclip','masonry','search','pagination'],function(Vue,Store,$,Funs){
+
+	var vm = new Vue({
+
+	    el:'.pQuest',
+
+	    data: function(){
+	    	return {
+	    		//items:[],
+	    		//page:5, //最大加载页数
+	    		api:API.libQuestion,
+	    		itemAdd:{
+	    			title:"",
+	    			content:''
+	    		}
+	    	}
+	    },
+
+	    computed:{
+	    	items:function(){
+	    		return Store.state.topState.items;
+	    	}
+	    },
+
+	    mounted: function(){
+
+	    	//请求路径
+	    	Store.state.topState.api=this.api;
+
+	    	//初始化数据
+	    	Store.dispatch("data_default");
+
+	    	//复制到剪切板
+			setTimeout(function(){
+				$("[data-j-copy]").each(function(i){
+		    		$(this).zclip({
+						path: "lib/zclip/ZeroClipboard.swf",
+						copy: function(){
+							return $(this).parents("dl").find(".copy").text();
+						},
+						afterCopy:function(){
+							$(".g-mask").show().delay(1000).fadeOut();
+							$(".g-pop-copy").css("top",$(window).height()/2-30+"px").show().delay(1000).fadeOut();
+						}
+					});
+		    	})
+			},500);
+
+		},
+
+	    methods:{
+
+	   	    //添加提交
+	   	    addHandle:function(){
+	   	    	if(this.itemAdd.title==""){
+	   	    		alert("标题不能为空！");
+	   	    		return;
+	   	    	}
+	   	    	if(this.itemAdd.content==""){
+	   	    		alert("答案不能为空！");
+	   	    		return;
+	   	    	}
+	   	    	var submitData={
+	   	    		"act":"addQuestion",
+	   	    		"title":this.itemAdd.title,
+	   	    		"content":this.itemAdd.content
+	   	    	}
+	   	    	var _this=this;
+	   	    	Funs.ajaxGet(this.api,submitData,function(rs){
+	   	    		$("#formQues .ttl").val("");
+    				$("#formQues .cont").val("");
+					$(".libList ul").prepend('<dl class="new"><dt><p>'+_this.itemAdd.title+'</p><a href="javascript:;" data-j-copy>复制答案</a></dt><dd class="copy">'+_this.itemAdd.content+'</dd></dl>');
+    				$('.libList .list').masonry('reload');
+    				setTimeout(function(){
+    					$(".libList ul dl").eq(0).find("[data-j-copy]").zclip({
+							path: "lib/zclip/ZeroClipboard.swf",
+							copy: function(){
+								return $(this).parents("dl").find(".copy").text();
+							},
+							afterCopy:function(){
+								$(".g-mask").show().delay(1000).fadeOut();
+								$(".g-pop-copy").css("top",$(window).height()/2-30+"px").show().delay(1000).fadeOut();
+							}
+						});
+    				},500);
+    				
+				});
+
+	   	    }
+
+	    }
+
+	});
+});
+	
+
+</script>

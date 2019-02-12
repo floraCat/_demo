@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://www.html5tricks.com/demo/html5-3d-cube-image/index.html -->
+<html class=" -webkit-"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<title>页面标题</title>
+    <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+
+  <style>
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize */
+
+/* ==========================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+
+body {
+width:100%; 
+min-width:320px; 
+max-width:640px; 
+margin:0 auto;
+background:url(images/bg.jpg) no-repeat center 0;
+}
+
+.space3d {
+perspective: 1000px;
+width: 120px;
+height: 120px;
+text-align: center;
+display: inline-block;
+margin:70px 0 40px -60px;
+position:absolute;
+z-index:9;
+left:50%;
+}
+
+._3dbox {
+display: inline-block;
+transition: all 0.5s cubic-bezier(0.675, 1.385, 0.82, 1.775);
+-webkit-transition:all .85s cubic-bezier(0.675, 1.385, 0.82, 1.775); 
+-moz-transition:all .5s cubic-bezier(0.675, 1.385, 0.82, 1.775); 
+-o-transition:all .5s cubic-bezier(0.675, 1.385, 0.82, 1.775); 
+-ms-transition:all .5s cubic-bezier(0.675, 1.385, 0.82, 1.775);
+text-align: center;
+position: relative;
+z-index:9;
+width: 100%;
+height: 100%;
+transform-style: preserve-3d;
+-webkit-transform-style: preserve-3d;
+-ms-transform-style: preserve-3d;
+-o-transform-style: preserve-3d;
+-moz-transform-style: preserve-3d;
+transform: rotateX(-15deg) rotateY(15deg);
+-webkit-transform: rotateX(-15deg) rotateY(15deg);
+-ms-transform: rotateX(-15deg) rotateY(15deg);
+-o-transform: rotateX(-15deg) rotateY(15deg);
+-moz-transform: rotateX(-15deg) rotateY(15deg);
+}
+
+._3dface {
+overflow: hidden;
+position: absolute;
+background: #FFF;
+color: #333;
+line-height: 120px;
+opacity: 1;
+border-radius:5px;
+}
+
+._3dface-front {
+width: 120px;
+height: 120px;
+transform: translate3d(0, 0, 60px);
+-webkit-transform: translate3d(0, 0, 60px);
+-ms-transform: translate3d(0, 0, 60px);
+-o-transform: translate3d(0, 0, 60px);
+-moz-transform: translate3d(0, 0, 60px);
+}
+
+._3dface-top {
+width: 120px;
+height: 120px;
+transform: rotateX(90deg) translate3d(0, 0, 60px);
+-webkit-transform: rotateX(90deg) translate3d(0, 0, 60px);
+-ms-transform: rotateX(90deg) translate3d(0, 0, 60px);
+-o-transform: rotateX(90deg) translate3d(0, 0, 60px);
+-moz-transform: rotateX(90deg) translate3d(0, 0, 60px);
+}
+
+._3dface-bottom {
+width: 120px;
+height: 120px;
+transform: rotateX(-90deg) translate3d(0, 0, 60px);
+-webkit-transform: rotateX(-90deg) translate3d(0, 0, 60px);
+-ms-transform: rotateX(-90deg) translate3d(0, 0, 60px);
+-o-transform: rotateX(-90deg) translate3d(0, 0, 60px);
+-moz-transform: rotateX(-90deg) translate3d(0, 0, 60px);
+}
+
+._3dface-left {
+width: 120px;
+height: 120px;
+left: 50%;
+margin-left: -60px;
+transform: rotateY(-90deg) translate3d(0, 0, 60px);
+-webkit-transform: rotateY(-90deg) translate3d(0, 0, 60px);
+-ms-transform: rotateY(-90deg) translate3d(0, 0, 60px);
+-o-transform: rotateY(-90deg) translate3d(0, 0, 60px);
+-moz-transform: rotateY(-90deg) translate3d(0, 0, 60px);
+}
+
+._3dface-right {
+width: 120px;
+height: 120px;
+left: 50%;
+margin-left: -60px;
+transform: rotateY(90deg) translate3d(0, 0, 60px);
+-webkit-transform: rotateY(90deg) translate3d(0, 0, 60px);
+-ms-transform: rotateY(90deg) translate3d(0, 0, 60px);
+-o-transform: rotateY(90deg) translate3d(0, 0, 60px);
+-moz-transform: rotateY(90deg) translate3d(0, 0, 60px);
+}
+
+._3dface-back {
+width: 120px;
+height: 120px;
+transform: rotateY(180deg) translate3d(0, 0, 60px);
+-webkit-transform: rotateY(180deg) translate3d(0, 0, 60px);
+-ms-transform: rotateY(180deg) translate3d(0, 0, 60px);
+-o-transform: rotateY(180deg) translate3d(0, 0, 60px);
+-moz-transform: rotateY(180deg) translate3d(0, 0, 60px);
+}
+
+
+.mWrap{ height:600px; padding-top:120px; background:url(images/bg2.png) no-repeat center 20px; background-size:105% auto;}
+.mWrap .sd{ position:absolute; top:330px; left:50%; margin-left:-90px; width:180px; height:50px; background:url(images/sd.png) no-repeat center; background-size:100% auto;}
+.btnW{ position:fixed; bottom:40px; left:0; width:100%; z-index:99;}
+.mBtn{ display:block; width:180px; height:49px; line-height:49px; background:url(images/btn.png) no-repeat; background-size:100% auto; font-family:微软雅黑; font-size:24px; letter-spacing:10px; color:#fff; text-align:center; text-indent:-9999px; margin:0 auto; opacity:.6;}
+.mBtn.on{ opacity:1; cursor:pointer;}
+/*对话框*/
+._HDialog *{ padding:0; margin:0; font-family:微软雅黑;}
+.yj5{ border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px;  -khtml-border-radius:5px;}
+._HDialog{ display:none; position:fixed; left:50%; margin-left:-130px; width:220px; font-size:14px; line-height:1.5; padding:40px 20px 25px; background-color:#fff; text-align:center;}
+._HDialog ._ttl{ font-size:18px; font-weight:bold;}
+._HDialog .btnM{ display:block; width:120px; height:40px; line-height:40px; text-align:center; border-radius:4px; background:#e43a3d; color:#fff; text-align:center; margin:0 auto; text-decoration:none;}
+._HDialog .Quit{ position:absolute; top:5px; right:5px; text-indent:-9999px; width:30px; height:30px; background:url(images/i_quit2.png) no-repeat center; background-size:30px;}
+#h_maskB{ position:fixed; top:0; left:0; width:100%; height:100%; background-color:#333; opacity:.8; z-index:99;}
+
+</style>
+
+
+</head>
+
+<body>
+
+
+<div class="mWrap">
+
+    <div class="space3d">
+    
+        <div class="_3dbox">
+          <div class="_3dface _3dface-front"></div>
+          <div class="_3dface _3dface-top"></div>
+          <div class="_3dface _3dface-bottom"></div>
+          <div class="_3dface _3dface-left"></div>
+          <div class="_3dface _3dface-right"></div>
+          <div class="_3dface _3dface-back"></div>
+        </div>
+    
+    </div>
+
+    <div class="sd"></div>
+
+</div>
+
+<div class="btnW"><a class="mBtn on">开始</a></div>
+
+
+<!--弹窗-->
+<div class="_HDialog yj5" style="top:170px; z-index:999;">
+    <p class="_ttl">test</p>
+    <br>
+    <a class="btnM" href="javascript:history.go(-1);">去领奖</a>
+    <a class="Quit">关闭</a>
+</div>
+
+
+
+
+
+
+
+<script>
+$(function(){
+	
+	var zhe=[7.1,8.2,7.3,8.4,7.5,8.6];//系统随机6个折扣
+	var Num = 5 /*Math.floor(Math.random()*6)+1*/; //系统随机中奖号(6个折扣其中一个索引号-1)
+	$("._3dface-front").css({"background":"url(images/"+zhe[0]+".jpg)","background-size":"auto 100%"});
+	$("._3dface-left").css({"background":"url(images/"+zhe[1]+".jpg)","background-size":"auto 100%"});
+	$("._3dface-right").css({"background":"url(images/"+zhe[2]+".jpg)","background-size":"auto 100%"});
+	$("._3dface-top").css({"background":"url(images/"+zhe[3]+".jpg)","background-size":"auto 100%"});
+	$("._3dface-bottom").css({"background":"url(images/"+zhe[4]+".jpg)","background-size":"auto 100%"});
+	$("._3dface-back").css({"background":"url(images/"+zhe[5]+".jpg)","background-size":"auto 100%"});
+	
+	//开始
+	$(".mBtn").delegate("","click",function(){
+		if($(this).hasClass("on")){
+			$(this).removeClass("on");			
+			function Ani(){
+				var t1=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(-90deg)"});
+				},0);
+				var t2=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(180deg)"});
+				},300);
+				var t3=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(90deg)"});
+				},600);
+				var t4=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(180deg)"});
+				},900);
+				var t5=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(180deg)"});
+				},1200);
+				var t6=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(90deg)"});
+				},1500);
+			}
+			if(Num==1){//front
+				Ani();
+				var t=setTimeout(function(){
+					$(".space3d ._3dbox").css({"transform":"rotateY(0deg)"})
+				},1700);
+			}
+			if(Num==2){//top
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(90deg)"})
+				},1700);
+			}
+			if(Num==3){//bottom
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(-90deg)"})
+				},1700);
+			}
+			if(Num==4){//left
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(-90deg)"})
+				},1700);
+			}
+			if(Num==5){//right
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateX(90deg)"})
+				},1700);
+			}
+			if(Num==6){//back
+				Ani();
+				var t=setTimeout(function(){
+				$(".space3d ._3dbox").css({"transform":"rotateY(180deg)"})
+				},1700);
+			}
+			//弹窗提示
+			var t=setTimeout(function(){
+				$(".mBtn").addClass("on");
+				$("body").append('<div id="h_maskB"></div>');
+				var note="你摇到的是"+zhe[Num-1]+"折";
+				$("._HDialog ._ttl").text(note);
+				$(".space3d").slideUp(200);
+				$("._HDialog").slideDown(600);
+			},3200);
+			//弹窗退出
+			$("._HDialog").delegate(".Quit","click",function(){
+				$("._HDialog").slideUp(200);
+				$(".space3d").slideDown(200);
+				$("#h_maskB").remove();
+			});
+		}
+	});
+});
+</script>
+
+</body></html>

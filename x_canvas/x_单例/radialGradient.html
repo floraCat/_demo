@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>radialGradient</title>
+</head>
+<body style="padding: 0; margin: 0">
+	
+<canvas id="myCanvas" width="500" height="500"></canvas>
+
+<script type="text/javascript">
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+
+	var myRadial = ctx.createRadialGradient(200,200,0,270,270,200);
+	myRadial.addColorStop(0,'red');
+	myRadial.addColorStop(1,'green');
+	ctx.fillStyle = myRadial;
+	ctx.fillRect(0,0,500,500);
+</script>
+
+</body>
+</html>

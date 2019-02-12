@@ -1,0 +1,20 @@
+{ 
+  "processors": ["@mapbox/stylelint-processor-arbitrary-tags"],
+  "plugins": [
+    "stylelint-order",
+    "stylelint-scss"
+    ],
+  "extends": ["css-properties-sorting"],
+  "rules": {
+    "color-no-invalid-hex": true,
+    "unit-no-unknown": true,
+    "property-no-unknown": true,
+    "selector-pseudo-class-no-unknown": true,
+    "selector-pseudo-element-no-unknown": true,
+    "comment-no-empty": true,
+    "number-leading-zero": "always",
+    "number-no-trailing-zeros": true,
+    "declaration-colon-space-after": "always",
+    "declaration-colon-space-before": "never"
+  }
+}

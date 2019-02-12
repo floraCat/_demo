@@ -1,0 +1,34 @@
+<!doctype html>
+<html ng-app="test">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<style>
+
+</style>
+<script src="angular.js"></script>
+<script>
+var app=angular.module('test', []);
+
+app.controller('aaa', function ($scope){
+	$scope.json={a: 12, b: 5, c: 8};
+	
+	$scope.$watch('json', function (){
+		alert('a');
+	}, true);
+});
+</script>
+</head>
+
+<body ng-controller="aaa">
+	<input type="button" value="按钮" ng-click="json.a=json.a+1" />
+</body>
+</html>
+
+
+
+
+
+

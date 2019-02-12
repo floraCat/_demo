@@ -1,0 +1,15 @@
+package.json自动安装全部依赖：
+	* cmd转到指定目录 -> 执行npm install(会自动将package.json中的模块安装到该目录的node-modules文件夹下)
+
+生成package.json文件：
+	* cmd转到指定目录 -> 执行npm init（输入对应信息后，会按该目录的node-modules文件夹下的模块列举到新建的package.json文件中）
+
+
+npm模块安装：
+	* cmd转到指定目录 -> npm install gulp-concat
+
+查看是否安装某npm模块：
+	* cmd转到指定目录 ->npm view gulp-concat
+
+执行gulpfile.js：
+	* cmd转到指定目录 -> gulp

@@ -1,0 +1,37 @@
+<!doctype html>
+<html ng-app="test">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<style>
+
+</style>
+<script src="angular.js"></script>
+<script>
+var app=angular.module('test', []);
+
+app.controller('aaa', function ($scope){
+	$scope.a=12;
+	$scope.b=5;
+	
+	//谁, 执行
+	$scope.$watch('a+b', function (){
+		alert('变了');
+	});
+});
+</script>
+</head>
+
+<body ng-controller="aaa">
+	<input type="text" ng-model="a" />
+	<input type="text" ng-model="b" />
+</body>
+</html>
+
+
+
+
+
+

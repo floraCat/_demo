@@ -1,0 +1,35 @@
+<!doctype html>
+<html ng-app="my_app">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<style>
+#div1 {width:300px; height:300px; border:1px solid black;}
+.box {background:red;}
+.box2 {background:green;}
+.box3 {background:yellow;}
+</style>
+<script src="angular.js"></script>
+<script>
+var app=angular.module('my_app', []);
+
+app.controller('test', function ($scope){
+	
+});
+</script>
+</head>
+
+<body ng-controller="test">
+<input type="checkbox" ng-model="a" />
+<input type="checkbox" ng-model="b" />
+<input type="checkbox" ng-model="c" />
+<div id="div1" ng-class="{box: a, box2: b, box3: c}">
+</div>
+</body>
+</html>
+
+
+
+

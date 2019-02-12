@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+	<script type="text/javascript" src="https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <h1>Hello App!</h1>
+  <p>
+    <router-link to="/a">A页面</router-link>
+    <router-link to="/b">B页面</router-link>
+  </p>
+  <router-view></router-view>
+</div>
+
+<script>
+	const routes = [
+	  { 
+	  	path: '/a', 
+	  	component: { 
+	  		template: '<div>AAA <router-link to="/a/a1">A1页面</router-link><router-view></router-view></div>' 
+	  	},
+	  	children: [
+	  		{
+	  			path: '/a/a1',
+	  			component: { template: '<div>A111</div>' }
+	  		}
+	  	]
+	  },
+	  { 
+	  	path: '/b', 
+	  	component: { template: '<div>BBB</div>' }
+	  }
+	]
+	const router = new VueRouter({
+      routes
+    })
+	const app = new Vue({
+		el: '#app',
+		router
+	})
+</script>
+</body>
+</html>

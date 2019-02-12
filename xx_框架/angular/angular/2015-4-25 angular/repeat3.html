@@ -1,0 +1,55 @@
+<!doctype html>
+<html ng-app="test">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<style>
+
+</style>
+<script src="angular.js"></script>
+<script>
+var app=angular.module('test', []);
+
+app.controller('aaa', function ($scope){
+	var arr=[12,5,8,7,99,16];
+	$scope.arr=arr;
+	$scope.a=12;
+	
+	//原生JS函数——错误的(不好的)
+	document.getElementById('btn1').onclick=function ()
+	{
+		alert(arr);
+		arr.splice(3, 1);
+		alert(arr);
+	};
+	
+	//ng函数
+	$scope.remove=function (index)
+	{
+		//alert(arr);
+		arr.splice(index, 1);
+		//alert(arr);
+	};
+});
+//model		模型-数据
+//module	模块
+</script>
+</head>
+
+<body ng-controller="aaa">
+<input type="button" value="原生JS修改数据" id="btn1" />
+<input type="button" value="ng修改" ng-click="a=a+1" />
+{{a}}
+<ul>
+	<li ng-repeat="i in arr">{{i}} <a href="javascript:;" ng-click="remove($index)">删除{{$index}}</a></li>
+</ul>
+</body>
+</html>
+
+
+
+
+
+

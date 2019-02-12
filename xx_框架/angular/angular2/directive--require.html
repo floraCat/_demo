@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>myDirective</title>
+</head>
+<body>
+
+	<figure></figure>
+
+</body>
+
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js" type="text/javascript"></script>
+<script>
+	var myApp=angular.module("myApp",[]);
+	myApp.directive("figure",function(){
+		return{
+			restrict:'EA',
+			template:'<button id="test">{{figureCtrl.txt}}</button>',
+			require:'figure',
+			controller:function($scope){
+				this.txt="test123";
+				this.alert=function(){
+					$scope.$apply(function(){
+						alert("test321");
+					});
+				};
+			},
+			controllerAs:'figureCtrl',
+			link:function(scope,element,attrs,resultCtrl){
+				console.log(scope.figureCtrl.txt); //通过scope访问controller
+				console.log(resultCtrl.txt); //通过link第四个参数访问controller
+				angular.element(document.querySelector('#test')).on("click",resultCtrl.alert);
+			}
+		}
+	});
+</script>
+</html>
+
+

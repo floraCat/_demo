@@ -1,0 +1,40 @@
+<!doctype html>
+<html ng-app="my_app">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<script src="angular.js"></script>
+<script src="jquery-1.7.2.js"></script>
+<script>
+var app=angular.module('my_app', []);
+
+app.directive('changeColor', function (){
+	return function (scope, element, attr){
+		var arr=element.children();
+		
+		for(var i=0;i<arr.length;i++)
+		{
+			arr[i].style.background=i%2?'#CCC':'';
+		}
+	};
+});
+</script>
+</head>
+
+<body>
+<ul change-color>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+</body>
+</html>

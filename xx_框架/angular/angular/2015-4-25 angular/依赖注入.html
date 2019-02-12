@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<script>
+function controller(fn)
+{
+	var str=fn+'';
+	var arr=str.match(/\([\$\w,\s]*\)/);
+	str=arr[0];
+	
+	str=str.substring(1, str.length-1);
+	
+	var data={
+		'$scope':		'scope对象',
+		'$http':		'ajax',
+		'$location':	12
+	};
+	
+	var arrArg=[];
+	var arr=str.split(/[,\s]+/g);
+	
+	//arr=['$scope', '$http', '$location']
+	//arrArg=[$scope, $http, $location]
+	
+	for(var i=0;i<arr.length;i++)
+	{
+		arrArg[i]=data[arr[i]];
+	}
+	
+	fn.apply(null, arrArg);
+}
+
+controller(function ($http, $scope, $location){
+	alert($scope);
+});
+</script>
+</head>
+
+<body>
+
+</body>
+</html>

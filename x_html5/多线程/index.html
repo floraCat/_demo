@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+	if(typeof(Worker)!=="undefined") {
+		if(!newWork) {
+			document.write("web Worker 开始...，如无意外1000毫秒后会返回数据");
+			newWork = new Worker("count.js");
+			newWork.onmessage = function (e) {
+				document.write('返回到html数据为：线程已经倒计时'+e.data+'毫秒');
+			}
+		}
+	} else {
+		alert("你浏览器不支持 web Worker")
+	}
+		
+</script>
+</body>
+</html>

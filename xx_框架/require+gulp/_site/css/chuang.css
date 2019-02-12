@@ -1,0 +1,137 @@
+@charset "utf-8";
+
+
+.Hot{ display:none;}
+.HFooter .Nav{ border-top:#e60012 2px solid; border-bottom:none; padding-top:20px;}
+
+/*导航*/
+.keNav{ border-bottom:#ff3c3c 2px solid;}
+.keNav .ol{ height:40px; line-height:40px; overflow:hidden;}
+.keNav li{ float:left; margin-right:1px; position:relative;}
+.keNav li a.h_n{ display:block; padding:0 25px; font-size:15px; font-weight:bold; color:#ff3c3c;}
+.keNav li a:hover,.keNav li a.on{ background-color:#ff3c3c; color:#fff;}
+.keNav li:first-child a.h_n{ padding:0 45px; background-color:#ff3c3c; color:#fff;}
+
+
+.main_keLi{ border-top:#ff3c3c 2px solid;}
+.kePing1{ margin-top:10px;}
+.keMain{ padding:0 0 20px; font-size:14px;}
+.keMain .note{ height:50px; line-height:50px; font-size:15px; font-weight:bold;}
+
+/*幻灯片*/
+.HFocus{ width:920px; height:400px; position:relative; _overflow:hidden;}
+.HFocus .yj-{ border-radius:7px;}
+.HFocus .item{ float:left;}
+.HFocus .item a{ display:block; height:400px; background-position:center; position:relative;}
+.HFocus .os{ position:absolute; bottom:13px;}
+.HFocus .os .o{ display:inline; float:left; width:9px; height:9px; cursor:pointer; text-indent:-9999px; _line-height:0;
+background-position:-324px -236px;}
+.HFocus .os .o.on{ background-position:-324px -270px;}
+.HFocus1 .os{ padding:3px 0;}
+.HFocus1 .arrow{ position:absolute; width:36px; height:60px; cursor:pointer;}
+.HFocus1 .arrow.on{ display:block;}
+.HFocus1 .arrow.left{ left:0; background-position:-435px 0;}
+.HFocus1 .arrow.right{ right:0; background-position:-398px 0;}
+
+
+.keRt1{ float:right; width:278px; height:398px; border:#eee 1px solid;}
+.keRt1 h4{ height:45px; line-height:45px; font-size:14px; font-weight:bold; text-align:center; color:#ff6241; border-bottom:#eee 1px solid;}
+.keRt1 ol{ padding:20px 40px 0;}
+.keRt1 ol .img{ display:block;}
+.keRt1 ol img{ width:200px; height:200px;}
+.keRt1 ol h5{ margin:3px 0; font-weight:bold; text-align:center;}
+.keRt1 ol p{ color:#666; font-size:12px;}
+.keRt1 ol p.p{ font-size:12px; line-height:18px; margin-bottom:8px;}
+.keRt1 ol p span{ color:#aaa;} 
+.keRt1 ol p em{ color:#ff6241; font-weight:bold;}
+
+
+.keBrand{ margin-bottom:30px;}
+.keBrand .hd{ margin:28px 0 12px; padding-left:5px; overflow:hidden;}
+.keBrand h2{ float:left; font-size:20px; margin-right:10px;}
+.keBrand h5{ float:left; color:#888; padding-right:15px; font-size:15px; background:url(imgs/chuang/i_arRB.png) no-repeat right center;}
+
+
+.img001{ width:1193px; overflow:hidden; margin:0 auto;}
+.img001 ul{ width:105%; border-top:#eee 1px solid; border-left:#eee 1px solid;}
+.img001 li{ float:left;}
+.img001 li a{ display:block; border-right:#eee 1px solid; border-bottom:#eee 1px solid; position:relative;}
+.img001 li a img{ width:148px; height:60px;}
+.img001 li a i{ position:absolute; top:0; left:0; width:147px; height:58px;}
+.img001 li a:hover i{ border:#CC0000 1px solid;}
+
+
+.keList{ width:920px; overflow:hidden;}
+.keSort{ width:918px; height:44px; line-height:44px; border:#eee 1px solid; margin-bottom:10px; overflow:hidden;}
+.keSort li{ float:left; padding:0 25px;}
+.keSort li a{ padding-left:15px; background:url(imgs/chuang/i_sort.png) no-repeat 0 center;}
+.keSort li.on a{ color:#ff3c3c; padding-left:15px; background:url(imgs/chuang/i_sort_on.png) no-repeat 0 center;}
+
+
+.keProd{ width:920px;}
+.HLp{ width:950px; font-size:12px; overflow:hidden; margin-top:18px;}
+.HLp li{ float:left; width:214px; border:#eee 1px solid; margin:0 18px 18px 0;}
+.HLp a{ display:block;}
+.HLp img{ width:214px; height:214px;}
+.HLp ol{ padding:10px; position:relative; _height:77px;}
+.HLp ol div{ height:24px; line-height:24px; overflow:hidden;}
+.HLp em{ color:#ee2222;}
+.HLp .d1{ font-size:14px; margin-bottom:5px;}
+.HLp .d3 strong{ font-size:18px;}
+.HLp .d3 span{ margin-left:10px; border:#ee2222 1px solid; color:#ee2222; padding:0 5px; margin-left:10px;}
+.HLp .d2 s{ color:#999;}
+.HLp .cart{ display:block; width:30px; height:30px; position:absolute; bottom:15px; right:15px; background:url(imgs/chuang/i_cart.png) no-repeat center;}
+
+
+/*页码*/
+.HPage{ line-height:36px; overflow:hidden; float:right; margin-top:20px;}
+.HPage ol{ overflow:hidden; float:left; border-top:#eee 1px solid; border-left:#eee 1px solid; margin-right:5px;}
+.HPage ol span,.HPage ol a{ display:block; float:left; height:36px; padding:0 15px; border-right:#eee 1px solid; border-bottom:#eee 1px solid;;}
+.HPage span.s,.HPage a.s{ display:block; float:left; height:36px; padding:0 15px; border:#eee 1px solid; margin-right:5px; font-family:serif;}
+.HPage span{ color:#bbb;}
+.HPage .on,.HPage a:hover{ color:#fff; background-color:#ff3c3c;}
+.HPage p input{ width:40px; padding:0 5px; height:24px; line-height:24px; border:#eee 1px solid; margin:7px 5px 0; color:#aaa;}
+.HPage p a{ display:inline-block; line-height:24px; padding:0 10px; border:#eee 1px solid; margin:5px 5px 0;}
+
+
+.keSide{ width:258px; border:#eee 1px solid;}
+.keSide .hd{ padding:10px 20px; border-bottom:#eee 1px solid;}
+.keSide .hd h3{ height:15px; line-height:15px; font-weight:bold; border-left:#ff3c3c 2px solid; text-indent:8px;}
+
+.lp012 li{ float:left; width:225px; padding:10px 20px; font-size:12px; overflow:hidden; _zoom:1;}
+.lp012 .img{ float:left;}
+.lp012 .img img{ width:94px; height:94px;}
+.lp012 ol{ float:right; width:121px; height:94px; position:relative;}
+.lp012 .d1_{ max-height:54px; line-height:18px; overflow:hidden;}
+.lp012 .d3{ position:absolute; bottom:0; left:0; font-size:14px;}
+
+.fresh_ke a{ display:block; margin:15px auto 20px; width:80px; height:30px; line-height:30px; font-size:12px; color:#fff; padding-left:40px; background:#ff3c3c url(imgs/chuang/i_reflesh.png) no-repeat 15px center;}
+.fresh_ke a:hover{ color:#eee;}
+
+
+
+
+/*列表*/
+.keSort{ margin-bottom:0;}
+
+.keProd2 .list2{ margin-bottom:20px;}
+.keProd2 .list2 ol{ overflow:hidden; border-bottom:#ddd 1px dashed; padding:18px 0; _zoom:1;}
+.keProd2 .list2 dl{ float:left; width:445px; overflow:hidden;}
+.keProd2 .list2 dt{ float:left; margin-right:15px;}
+.keProd2 .list2 dt img{ width:200px; height:200px;}
+.keProd2 .list2 dd{ float:left; width:230px;}
+.keProd2 .list2 dd a{ display:block; max-height:63px; line-height:21px; overflow:hidden; font-size:15px; font-weight:bold; margin-bottom:10px;}
+.keProd2 .list2 dd p{ line-height:40px;}
+.keProd2 .list2 dd span{ color:#aaa;}
+.keProd2 .list2 dd div{ overflow:hidden;}
+.keProd2 .list2 ul{ float:right; font-size:12px; overflow:hidden;}
+.keProd2 .list2 ul li{ float:left; width:130px; margin-left:15px;}
+.keProd2 .list2 ul li .img{ display:block;}
+.keProd2 .list2 ul li img{ width:130px; height:130px;}
+.keProd2 .list2 ul li .ttl{ display:block; height:40px; line-height:20px; margin:5px 0 0; overflow:hidden;}
+
+.keSide .d1{ font-size:14px; font-weight:bold;}
+.keSide .d1_{ height:54px; line-height:18px;}
+.keSide .d3{ font-size:12px; color:#aaa;}
+.keSide .d3 em{ font-weight:bold;}
+.keSide .lp012{ padding:5px 0;}

@@ -1,0 +1,19 @@
+<meta charset="utf-8">
+<script>
+	//获取定位
+    if (navigator.geolocation) { //如果浏览器支持定位功能
+        navigator.geolocation.getCurrentPosition(success,error,{enableHighAccuracy: true,timeout:10000});
+    } else { //浏览器不支持
+    	alert('你的浏览器不支持定位功能');
+    }
+    function success(pos){//定位成功显示经纬度
+        console.log('成功')
+        console.log(pos)
+    	document.write('纬度：'+pos.coords.latitude+' -- 经度：'+pos.coords.longitude);
+    }
+    function error(er){
+        console.log('失败')
+        console.log(er)
+    	document.write(er.message);
+    }
+</script>

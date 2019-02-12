@@ -1,0 +1,54 @@
+{
+	"result": [
+		{
+			"path": "/flight_search",
+			"catNo":0,
+			"label": "flight_search",
+			"title": "航班动态查询",
+			"bg": "./src/assets/images/bg1.jpg"
+		},
+		{
+			"path": "/service",
+			"catNo":4,
+			"label": "service",
+			"title": "旅客服务",
+			"bg": "./src/assets/images/bg2.jpg"
+		},
+		{
+			"path": "/traffic",
+			"catNo":3,
+			"label": "traffic",
+			"title": "地面交通",
+			"bg": "./src/assets/images/bg3.jpg"
+		},
+		{
+			"path": "/guide",
+			"catNo":3,
+			"label": "guide",
+			"title": "乘机指南",
+			"bg": "./src/assets/images/bg4.jpg"
+		},
+		{
+			"path": "/detail_terminal",
+			"catNo":0,
+			"label": "detail_terminal",
+			"title": "航站楼指引",
+			"bg": ""
+		},
+		{
+			"path": "/cats",
+			"catNo":3,
+			"label": "leisure_shopping",
+			"title": "休闲购物",
+			"bg": ""
+		},
+		{
+			"path": "",
+			"link": "http://localhost:8081/#/",
+			"catNo":0,
+			"label": "o2o",
+			"title": "O2O商城",
+			"bg": ""
+		}
+	]
+}

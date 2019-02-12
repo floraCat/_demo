@@ -1,0 +1,19 @@
+
+参照 http://www.css88.com/doc/webpack2/guides/get-started/  指南 -》 起步
+
+一个webpack打包测试项目，测试最基础的打包功能，用以研究webpack的打包原理。
+
+	- 使用CommonsChunkPlugin把verdor独立分离，并把runtime代码存manifest.js内
+		（webpack2.0后的版本貌似不需要manifest也能在修改后重新打包时生成于之前一样chunkhash的vendor.js
+		webpack2.0之前的需要加menifest.js文件,否则每次修改后生成的chunkhash都不一样）
+	- 使用HtmlWebpackPlugin把带hash值文件名的js插入html模板并生成index.html到/dist里
+	- 使用package.json的scripts简化了build命令
+
+
+---------------------------------------
+
+项目启动：
+
+	- $ npm install
+	- $ npm run build
+	- 访问/dist的index.html，显示 ‘Hello webpack’代表成功

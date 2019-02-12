@@ -1,0 +1,27 @@
+<!doctype html>
+<html ng-app="my_app">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<script src="angular.js"></script>
+<script>
+var app=angular.module('my_app', []);
+
+app.directive('red', function (){
+	return function (scope, element, attr){
+		//element——JQ对象
+		element.css('background', 'red');
+	};
+});
+</script>
+</head>
+
+<body>
+<input type="text" red />
+<input type="text" />
+<input type="text" />
+<input type="text" />
+</body>
+</html>

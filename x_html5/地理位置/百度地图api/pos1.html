@@ -1,0 +1,46 @@
+<meta charset="utf-8">
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A63e90def3d0f5488ab9032056429a0d"></script>
+
+
+ <script type="text/javascript">
+ 
+//百度地图API功能
+var map = new BMap.Map('map');
+
+
+
+//获得当前城市
+var myCity = new BMap.LocalCity();
+
+
+myCity.get(myFun);
+
+function myFun(result){
+
+ console.log(result.name);          //城市名称
+    console.log(result.code);          //城市代码
+    console.log(result.level);         //当前地图Zoom的Level
+    console.log(result.center.lat);    //当前城市中心点维度
+    console.log(result.center.lng);    //当前城市中心点经度
+
+
+}
+
+
+
+</script>
+
+
+</head>
+
+<body onload="">
+
+
+      
+
+
+
+
+</body>
+</html>

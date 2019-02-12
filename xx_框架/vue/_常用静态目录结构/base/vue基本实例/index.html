@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div @click="fun">{{test}}</div>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				test: 'Hello'
+			},
+			methods: {
+				fun () {
+					alert(111)
+				}
+			}
+		})
+	</script>
+</body>
+</html>

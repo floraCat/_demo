@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>myDirective</title>
+</head>
+<body>
+
+	<add reduce>
+		<div>次数：{{count}}</div>
+		<figure></figure>
+	</add>
+
+</body>
+
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js" type="text/javascript"></script>
+<script>
+	var myApp=angular.module("myApp",[]);
+	myApp.directive("add",function(){
+		return{
+			restrict:"EA",
+			controller:function($scope){
+				$scope.count=0;
+				this.addCount=function(){
+					$scope.$apply(function(){
+						$scope.count++;
+					});
+				}
+			}
+		}
+	});
+	myApp.directive("reduce",function(){
+		return{
+			restrict:"EA",
+			controller:function($scope){
+				$scope.count=0;
+				this.reduceCount=function(){
+					$scope.$apply(function(){
+						$scope.count--;
+					});
+				}
+			}
+		}
+	});
+</script>
+
+<script>
+	myApp.directive("figure",function(){
+		return{
+			restrict:'EA',
+			template:'<button id="add">增加</button>'+
+					'<button id="reduce">减少</button>'+
+					'<div>{{temp}}</div>',
+			require:['?^add','?^reduce'],
+			link:function(scope,element,attrs,resultCtrl){
+				scope.temp="test112233";
+				angular.element(document.querySelector('#add')).on("click",resultCtrl[0].addCount);
+				angular.element(document.querySelector('#reduce')).on("click",resultCtrl[1].reduceCount);
+			}
+		}
+	});
+</script>
+</html>
+
+

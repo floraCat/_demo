@@ -1,0 +1,202 @@
+<!doctype html>
+<html ng-app="wish">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<meta name="description" content="智能社是一家专注于web前端开发技术的公司，目前主要提供JavaScript培训和HTML5培训两项服务，同时还推出了大量javascript基础知识教程，智能课堂为你带来全新的学习方法和快乐的学习体验。" />
+<title>智能社— http://www.zhinengshe.com</title>
+<link rel="stylesheet" href="./Css/index.css" />
+<script src="angular.js"></script>
+<script src="jquery-1.7.2.js"></script>
+<script>
+var app=angular.module('wish', []);
+
+app.filter('to5', function (){
+	return function (input){
+		input+='';
+		while(input.length<5)
+		{
+			input='0'+input;
+		}
+		
+		return input;
+	};
+});
+app.filter('t2d', function (){
+	return function (input){
+		var oDate=new Date();
+		oDate.setTime(input*1000);
+		
+		return oDate.getHours()+':'+oDate.getMinutes()+':'+oDate.getSeconds();
+	};
+});
+
+app.directive('rndPos', function (){
+	return function (scope, element, attr){
+		element.css({
+			left:	parseInt(Math.random()*600+100)+'px',
+			top:	parseInt(Math.random()*300+50)+'px'
+		});
+	};
+});
+
+app.directive('drag', function (){
+	return function (scope, element, attr){
+		element.bind('mousedown', function (ev){
+			var disX=ev.clientX-element[0].offsetLeft;
+			var disY=ev.clientY-element[0].offsetTop;
+			
+			$(document).bind('mousemove', function (ev){
+				var x=ev.clientX-disX;
+				var y=ev.clientY-disY;
+				
+				element.css({
+					'left': x+'px',
+					'top': y+'px'
+				});
+				
+				localStorage['pos_'+element[0].dataset['znsId']]=x+'|'+y;
+			});
+			$(document).mouseup(function (){
+				$(document).unbind('mousemove');
+				$(document).unbind('mouseup');
+			});
+		});
+	};
+});
+app.directive('center', function (){
+	return function (scope, element, attr){
+		element.css({
+			'left': '50%',
+			'top':	'50%',
+			'marginLeft':	-element[0].offsetWidth/2+'px',
+			'marginTop':	-element[0].offsetHeight/2+'px'
+		});
+	};
+});
+
+app.controller('main', function ($scope, $http){
+	$scope.data=[];
+	$scope.remove=function (id, index){
+		$http.get('wish.php', {params: {act: 'delete', id: id}}).success(function (data){
+			$scope.data.splice(index, 1);
+			delete localStorage['pos_'+id];
+			alert('成功删除');
+		});
+	};
+	
+	$http.get('wish.php', {params: {act: 'get'}}).success(function (data){
+		if(data.error==1)
+		{
+			$scope.data=[];
+		}
+		else
+		{
+			$scope.data=data.msg;
+			
+			for(var i=0;i<$scope.data.length;i++)
+			{
+				if(localStorage['pos_'+$scope.data[i].id])
+				{
+					var arr=localStorage['pos_'+$scope.data[i].id].split('|');
+					
+					$scope.data[i].x=arr[0];
+					$scope.data[i].y=arr[1];
+				}
+			}
+		}
+	}).error(function (){
+		alert('获取失败');
+	});
+	
+	$scope.add=function ()
+	{
+		$http.get('wish.php', {params: {act: 'add', username: $scope.add_username, content: $scope.add_content}}).success(function (data){
+			console.log(data);
+			var x=parseInt(Math.random()*600+100);
+			var y=parseInt(Math.random()*300+50);
+			$scope.data.push({
+				id:			data.id,
+				username:	$scope.add_username,
+				content:	$scope.add_content,
+				time:		new Date().getTime()/1000,
+				x:			x,
+				y:			y
+			});
+			
+			localStorage['pos_'+data.id]=x+'|'+y;
+		}).error(function (){
+			alert('出错');
+		});
+		
+		$scope.showform=false;
+	};
+	
+	$scope.add_content='';
+	
+	$scope.showform=false;
+	
+	$scope.alert=function (str)
+	{
+		alert(str);
+	};
+	$scope.addFace=function (alt)
+	{
+		$scope.add_content+='['+alt+']';
+	};
+	
+	$scope.arrFace=[
+		{src: 'zhuakuang', alt: '抓狂'},
+		{src: 'baobao', alt: '抱抱'},
+		{src: 'haixiu', alt: '害羞'},
+		{src: 'ku', alt: '酷'},
+		{src: 'xixi', alt: '嘻嘻'}
+	];
+});
+</script>
+</head>
+
+<body ng-controller="main">
+<div id='top'>
+    <span id='send' ng-click="showform=true"></span>
+</div>
+<div id='main'>
+    <dl class='paper' ng-class="{a1: item.id%5==0, a2: item.id%5==1, a3: item.id%5==2, a4: item.id%5==3, a5: item.id%5==4}" ng-repeat="item in data" style="left:{{item.x}}px; top:{{item.y}}px;" drag data-zns-id="{{item.id}}">
+        <dt>
+            <span class='username'>{{item.username}}</span>
+            <span class='num'>No.{{item.id|to5}}</span>
+        </dt>
+        <dd class='content'>{{item.content}}</dd>
+        <dd class='bottom'>
+            <span class='time'>{{item.time|t2d}}</span>
+            <a href="" class="close" ng-click="remove(item.id, $index)"></a>
+        </dd>
+    </dl>
+</div>
+
+<div id='send-form' ng-show="showform" center>
+    <p class='title'><span>许下你的愿望</span><a href="" id='close' ng-click="showform=false"></a></p>
+    <form action="" name='wish'>
+        <p>
+            <label for="username">昵称：</label>
+            <input type="text" name='username' ng-model="add_username" />
+        </p>
+        <p>
+            <label for="content">愿望：(您还可以输入&nbsp;<span id='font-num'>50</span>&nbsp;个字)</label>
+            <textarea name="content" ng-model="add_content"></textarea>
+            <div id='phiz'>
+                <img ng-repeat="face in arrFace" ng-src="./Images/phiz/{{face.src}}.gif" alt="{{face.alt}}" ng-click="addFace(face.alt)" />
+            </div>
+        </p>
+        <span id='send-btn' ng-click="add()"></span>
+    </form>
+</div>
+<!--[if IE 6]>
+<script type="text/javascript" src="./Js/iepng.js"></script>
+<script type="text/javascript">
+    DD_belatedPNG.fix('#send,#close,.close','background');
+</script>
+<![endif]-->
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test</title>
+    <link type="text/css" rel="stylesheet" href="../../css/m/h_reset.css" />
+    <script type="text/javascript" src="../../js/jquery-1.10.2.js"></script>
+</head>
+<body>
+
+<!-- 
+<form action="_test.php" target="_blank" method="post">
+	<input type="text" name="in1" value="111" />
+	<input type="text" name="in2" value="222" />
+	<input type="submit" />
+</form> -->
+
+
+<script>
+function openPostWindow(url, name, data1, data2){
+    var tempForm = document.createElement("form");
+    tempForm.id = "tempForm1";
+    tempForm.method = "post";
+    tempForm.action = url;
+    tempForm.target=name;
+    var hideInput1 = document.createElement("input");
+    hideInput1.type = "hidden";
+    hideInput1.name="xtid";
+    hideInput1.value = data1;
+    var hideInput2 = document.createElement("input");
+    hideInput2.type = "hidden";
+    hideInput2.name="xtmc";
+    hideInput2.value = data2;
+    tempForm.appendChild(hideInput1);
+    tempForm.appendChild(hideInput2);
+    if(document.all){
+        tempForm.attachEvent("onsubmit",function(){});        //IE
+    }else{
+        var subObj = tempForm.addEventListener("submit",function(){},false);    //firefox
+    }
+    document.body.appendChild(tempForm);
+    if(document.all){
+        tempForm.fireEvent("onsubmit");
+    }else{
+        tempForm.dispatchEvent(new Event("submit"));
+    }
+    tempForm.submit();
+    document.body.removeChild(tempForm);
+}
+openPostWindow("_test.php", '_blank', 'aaa', 'bbb');
+</script>
+
+
+</body>
+</html>

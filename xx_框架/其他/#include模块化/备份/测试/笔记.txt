@@ -1,0 +1,29 @@
+把gulp安装到此目录：
+
+	dos根目录转到e盘：
+	e: 回车
+
+	转到本盘下的目录：
+	cd AppServ\www\node\test
+
+	再安装gulp：
+	npm install gulp --save-dev
+
+
+其他模块安装：
+
+	npm install gulp-less gulp-minify-css gulp-imagemin --save dev
+
+	npm install --save-dev gulp-requirejs-optimize
+
+
+	gulp-uglify压缩js的模块用gulp-requirejs-optimize代替了
+
+
+
+
+
+resource_pre(rconfig用require.config配置)
+resource2_pre(rconfig用对象再window.require配置)
+
+//部分文件已修改，都用resource_pre

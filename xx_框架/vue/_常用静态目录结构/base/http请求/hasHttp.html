@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+	<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<div @click="fun">{{test}}</div>
+	</div>
+	<script>
+		Vue.prototype.axios = axios
+		new Vue({
+			el: '#app',
+			data: {
+				test: 'Hello'
+			},
+			methods: {
+				fun () {
+					let self = this
+					this.axios({
+						url:'./test.json',
+						method: 'GET',
+						dataType: 'xml'
+					}).then((res) => {
+						self.test = res.data.result
+					})
+				}
+			}
+		})
+	</script>
+</body>
+</html>

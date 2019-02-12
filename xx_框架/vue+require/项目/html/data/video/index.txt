@@ -1,0 +1,14 @@
+﻿[
+	{
+        "title":"视频标题1",
+	"path":"https://www.eggou.com"
+	},
+        {
+        "title":"视频标题2",
+        "path":"https://www.eggou.com"
+        },
+        {
+        "title":"视频标题3",
+        "path":"https://www.eggou.com"
+        }
+]

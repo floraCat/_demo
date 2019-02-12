@@ -1,0 +1,7 @@
+/*
+** 设计稿一比一尺寸$pxval 转成 实际比例的rem值 （rem值 = px值 / html字体大小）
+*/
+@function rem($pxval) {
+  $base: (750/2)/(375/16) * 1px; // 750为设计稿的宽度，(375/16)为常规屏宽(IPhone6)与html字体大小的比率
+  @return ($pxval / $base) * 1rem;
+}

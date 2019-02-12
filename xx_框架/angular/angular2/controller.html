@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>myDirective</title>
+</head>
+<body>
+
+<div ng-controller="FirstController">
+<h4>The simplest adding machine ever</h4>
+<button ng-click="add(1)">Add</button>
+<button ng-click="subtract(1)">Subtract</button>
+<h4>Current count: {{ counter }}</h4>
+</div>
+
+</body>
+<script src="//cdn.bootcss.com/angular.js/1.5.8/angular.min.js" type="text/javascript"></script>
+<script>
+	angular.module('myApp',[])
+	.controller('FirstController', function($scope) {
+		$scope.counter = 0;
+		$scope.add = function(amount) { $scope.counter += amount; };
+		$scope.subtract = function(amount) { $scope.counter -= amount; };
+	});
+</script>
+</html>
+

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+  <title>Events模块 -- JavaScript 标准参考教程（alpha）</title>
+  
+  <!-- Included CSS Files (Uncompressed) -->
+  <!--
+  <link rel="stylesheet" href="css/foundation.css">
+  -->
+  
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="css/foundation.css">
+  <link rel="stylesheet" href="css/main.css">
+  <!-- IE Fix for HTML5 Tags -->
+  <!--[if lt IE 9]>
+    <script src="js/html5.js"></script>
+  <![endif]-->
+  <script src="js/jquery.js"></script>
+  <script src="js/toc.js"></script>
+  <script src="js/main.js"></script>
+</head>
+<body>
+<header class="top-bar" id="header">
+<div class="fixed">
+<nav class="top-bar">
+<ul>
+<!-- Title Area -->
+	<li class="name has-dropdown">
+	<h1><a href="/">JavaScript 标准参考教程（alpha） </a></h1>
+		<ul class="dropdown">
+			
+			<li><a href="/#introduction">导论</a></li>
+			
+			<li><a href="/#grammar">语法</a></li>
+			
+			<li><a href="/#stdlib">标准库</a></li>
+			
+			<li><a href="/#oop">面向对象编程</a></li>
+			
+			<li><a href="/#advanced">语法专题</a></li>
+			
+			<li><a href="/#dom">DOM模型</a></li>
+			
+			<li><a href="/#bom">浏览器环境</a></li>
+			
+			<li><a href="/#htmlapi">Web API</a></li>
+			
+		</ul>
+	</li>
+</ul>
+<section>
+<ul class="left">
+<li class="divider"></li>
+<li class="has-dropdown"><a class="active" href="#"> 草稿二：Node.js </a><ul class="dropdown">
+<li><a href="/nodejs/assert.html">assert 模块</a></li>
+<li><a href="/nodejs/basic.html">Node.js 概述</a></li>
+<li><a href="/nodejs/buffer.html">Buffer对象</a></li>
+<li><a href="/nodejs/child-process.html">Child Process模块</a></li>
+<li><a href="/nodejs/cluster.html">Cluster模块</a></li>
+<li><a href="/nodejs/develop.html">Node应用程序开发</a></li>
+<li><a href="/nodejs/dns.html">dns 模块</a></li>
+<li class="active"><a href="#">Events模块</a></li>
+<li><a href="/nodejs/express.html">Express框架</a></li>
+<li><a href="/nodejs/fs.html">fs 模块</a></li>
+<li><a href="/nodejs/http.html">Http模块</a></li>
+<li><a href="/nodejs/koa.html">Koa 框架</a></li>
+<li><a href="/nodejs/module.html">CommonJS规范</a></li>
+<li><a href="/nodejs/mongodb.html">MongoDB的应用</a></li>
+<li><a href="/nodejs/net.html">Net模块和DNS模块</a></li>
+<li><a href="/nodejs/npm.html">npm模块管理器</a></li>
+<li><a href="/nodejs/os.html">os模块</a></li>
+<li><a href="/nodejs/packagejson.html">package.json文件</a></li>
+<li><a href="/nodejs/path.html">Path模块</a></li>
+<li><a href="/nodejs/process.html">process对象</a></li>
+<li><a href="/nodejs/querystring.html">querystring 模块</a></li>
+<li><a href="/nodejs/stream.html">Stream接口</a></li>
+<li><a href="/nodejs/url.html">url 模块</a></li>
+</ul></li>
+<li class="divider"></li>
+<li class="has-dropdown nav-3"><a href="#"> Events模块</a><ul class="dropdown">
+</ul></li>
+</ul>
+<ul class="right">
+	<li class="divider"></li>
+	<li>
+		<a href="https://github.com/ruanyf/jstutorial" target="_blank">GitHub <i class="foundicon-edit"></i></a>
+	</li>
+	<li class="divider"></li>
+	<li>
+		<a href="#">TOP <i class="foundicon-up-arrow"></i></a>
+	</li>
+</ul>
+</section>
+</nav>  
+</div>
+</header>
+<article class="bookPage">
+  <div class="row">
+    <div class="twelve columns">
+<h1> Events模块 </h1>
+<aside class="right"><p>来自<a href="/">《JavaScript 标准参考教程（alpha）》</a>，by 阮一峰</p></aside>
+<div id="toc" class="panel callout radius">目录</div>
+<aside class="annoucement">
+  <p>重要说明：本教程已经搬迁，此处不再维护，请访问新网址：<a href="https://wangdoc.com/javascript/">wangdoc.com/javascript</a>。</p>
+</aside>
+<p>回调函数模式让 Node 可以处理异步操作。但是，为了适应回调函数，异步操作只能有两个状态：开始和结束。对于那些多状态的异步操作（状态1，状态2，状态3，……），回调函数就会无法处理，你不得不将异步操作拆开，分成多个阶段。每个阶段结束时，调用下一个回调函数。</p>
+<p>为了解决这个问题，Node 提供 Event Emitter 接口。通过事件，解决多状态异步操作的响应问题。</p>
+<h2 id="概述">概述</h2>
+<p>Event Emitter 是一个接口，可以在任何对象上部署。这个接口由<code class="highlighter-rouge">events</code>模块提供。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">emitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">();</span>
+</code></pre></div></div>
+<p><code class="highlighter-rouge">events</code>模块的<code class="highlighter-rouge">EventEmitter</code>是一个构造函数，可以用来生成事件发生器的实例<code class="highlighter-rouge">emitter</code>。</p>
+<p>然后，事件发生器的实例方法<code class="highlighter-rouge">on</code>用来监听事件，实例方法<code class="highlighter-rouge">emit</code>用来发出事件。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'someEvent'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'event has occured'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="kd">function</span> <span class="nx">f</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'start'</span><span class="p">);</span>
+  <span class="nx">emitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'someEvent'</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'end'</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">f</span><span class="p">()</span>
+<span class="c1">// start</span>
+<span class="c1">// event has occured</span>
+<span class="c1">// end</span>
+</code></pre></div></div>
+<p>上面代码中，<code class="highlighter-rouge">EventEmitter</code>对象实例<code class="highlighter-rouge">emitter</code>就是消息中心。通过<code class="highlighter-rouge">on</code>方法为<code class="highlighter-rouge">someEvent</code>事件指定回调函数，通过<code class="highlighter-rouge">emit</code>方法触发<code class="highlighter-rouge">someEvent</code>事件。</p>
+<p>上面代码还表明，<code class="highlighter-rouge">EventEmitter</code>对象的事件触发和监听是同步的，即只有事件的回调函数执行以后，函数<code class="highlighter-rouge">f</code>才会继续执行。</p>
+<h2 id="event-emitter-接口的部署">Event Emitter 接口的部署</h2>
+<p>Event Emitter 接口可以部署在任意对象上，使得这些对象也能订阅和发布消息。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">Dog</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">Dog</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">=</span> <span class="nx">EventEmitter</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+<span class="c1">// 另一种写法</span>
+<span class="c1">// Dog.prototype = Object.create(EventEmitter.prototype);</span>
+<span class="kd">var</span> <span class="nx">simon</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Dog</span><span class="p">(</span><span class="s1">'simon'</span><span class="p">);</span>
+<span class="nx">simon</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'bark'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">' barked'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">simon</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'bark'</span><span class="p">);</span>
+<span class="p">},</span> <span class="mi">500</span><span class="p">);</span>
+</code></pre></div></div>
+<p>上面代码新建了一个构造函数<code class="highlighter-rouge">Dog</code>，然后让其继承<code class="highlighter-rouge">EventEmitter</code>，因此<code class="highlighter-rouge">Dog</code>就拥有了<code class="highlighter-rouge">EventEmitter</code>的接口。最后，为<code class="highlighter-rouge">Dog</code>的实例指定<code class="highlighter-rouge">bark</code>事件的监听函数，再使用<code class="highlighter-rouge">EventEmitter</code>的<code class="highlighter-rouge">emit</code>方法，触发<code class="highlighter-rouge">bark</code>事件。</p>
+<p>Node 内置模块<code class="highlighter-rouge">util</code>的<code class="highlighter-rouge">inherits</code>方法，提供了另一种继承 Event Emitter 接口的方法。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">util</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'util'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">Radio</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">station</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nb">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'open'</span><span class="p">,</span> <span class="nx">station</span><span class="p">);</span>
+    <span class="p">},</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nb">self</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'close'</span><span class="p">,</span> <span class="nx">station</span><span class="p">);</span>
+    <span class="p">},</span> <span class="mi">5000</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'newListener'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">listener</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Event Listener: '</span> <span class="o">+</span> <span class="nx">listener</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+<span class="nx">util</span><span class="p">.</span><span class="nx">inherits</span><span class="p">(</span><span class="nx">Radio</span><span class="p">,</span> <span class="nx">EventEmitter</span><span class="p">);</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Radio</span><span class="p">;</span>
+</code></pre></div></div>
+<p>上面代码中，<code class="highlighter-rouge">Radio</code>是一个构造函数，它的实例继承了EventEmitter接口。下面是使用这个模块的例子。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Radio</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./radio.js'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">station</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">freq</span><span class="p">:</span> <span class="s1">'80.16'</span><span class="p">,</span>
+  <span class="na">name</span><span class="p">:</span> <span class="s1">'Rock N Roll Radio'</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">radio</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Radio</span><span class="p">(</span><span class="nx">station</span><span class="p">);</span>
+<span class="nx">radio</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'open'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">station</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'"%s" FM %s 打开'</span><span class="p">,</span> <span class="nx">station</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">station</span><span class="p">.</span><span class="nx">freq</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'♬ ♫♬'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">radio</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'close'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">station</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'"%s" FM %s 关闭'</span><span class="p">,</span> <span class="nx">station</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span> <span class="nx">station</span><span class="p">.</span><span class="nx">freq</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+<h2 id="event-emitter-的实例方法">Event Emitter 的实例方法</h2>
+<p>Event Emitter 的实例方法如下。</p>
+<ul>
+  <li><code class="highlighter-rouge">emitter.on(name, f)</code> 对事件<code class="highlighter-rouge">name</code>指定监听函数<code class="highlighter-rouge">f</code></li>
+  <li><code class="highlighter-rouge">emitter.addListener(name, f)</code> <code class="highlighter-rouge">addListener</code>是<code class="highlighter-rouge">on</code>方法的别名</li>
+  <li><code class="highlighter-rouge">emitter.once(name, f)</code> 与<code class="highlighter-rouge">on</code>方法类似，但是监听函数<code class="highlighter-rouge">f</code>是一次性的，使用后自动移除</li>
+  <li><code class="highlighter-rouge">emitter.listeners(name)</code> 返回一个数组，成员是事件<code class="highlighter-rouge">name</code>所有监听函数</li>
+  <li><code class="highlighter-rouge">emitter.removeListener(name, f)</code> 移除事件<code class="highlighter-rouge">name</code>的监听函数<code class="highlighter-rouge">f</code></li>
+  <li><code class="highlighter-rouge">emitter.removeAllListeners(name)</code> 移除事件<code class="highlighter-rouge">name</code>的所有监听函数</li>
+</ul>
+<h3 id="emit">emit()</h3>
+<p><code class="highlighter-rouge">EventEmitter</code>实例对象的<code class="highlighter-rouge">emit</code>方法，用来触发事件。它的第一个参数是事件名称，其余参数都会依次传入回调函数。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">myEmitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">connection</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'client id: '</span> <span class="o">+</span> <span class="nx">id</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nx">myEmitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'connection'</span><span class="p">,</span> <span class="nx">connection</span><span class="p">);</span>
+<span class="nx">myEmitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'connection'</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<span class="c1">// client id: 6</span>
+</code></pre></div></div>
+<h3 id="once">once()</h3>
+<p>该方法类似于<code class="highlighter-rouge">on</code>方法，但是回调函数只触发一次。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">myEmitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="nx">myEmitter</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'message: '</span> <span class="o">+</span> <span class="nx">msg</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">myEmitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'this is the first message'</span><span class="p">);</span>
+<span class="nx">myEmitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'this is the second message'</span><span class="p">);</span>
+<span class="nx">myEmitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'welcome to nodejs'</span><span class="p">);</span>
+</code></pre></div></div>
+<p>上面代码触发了三次message事件，但是回调函数只会在第一次调用时运行。</p>
+<p>下面代码指定，一旦服务器连通，只调用一次的回调函数。</p>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">server</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="s1">'connection'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">stream</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Ah, we have our first user!'</span><span class="p">);</span>
+<span class="p">});</span></code></pre></figure>
+<p>该方法返回一个EventEmitter对象，因此可以链式加载监听函数。</p>
+<h3 id="removelistener">removeListener()</h3>
+<p>该方法用于移除回调函数。它接受两个参数，第一个是事件名称，第二个是回调函数名称。这就是说，不能用于移除匿名函数。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">emitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
+<span class="nx">setInterval</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">emitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="s1">'foo bar'</span><span class="p">);</span>
+<span class="p">},</span> <span class="mi">300</span><span class="p">);</span>
+<span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">emitter</span><span class="p">.</span><span class="nx">removeListener</span><span class="p">(</span><span class="s1">'message'</span><span class="p">,</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">);</span>
+<span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+</code></pre></div></div>
+<p>上面代码每300毫秒触发一次message事件，直到1000毫秒后取消监听。</p>
+<p>另一个例子是使用removeListener方法模拟once方法。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">emitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">onlyOnce</span> <span class="p">()</span> <span class="p">{</span>
+	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"You'll never see this again"</span><span class="p">);</span>
+	<span class="nx">emitter</span><span class="p">.</span><span class="nx">removeListener</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">,</span> <span class="nx">onlyOnce</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">,</span> <span class="nx">onlyOnce</span><span class="p">);</span>
+</code></pre></div></div>
+<h3 id="setmaxlisteners">setMaxListeners()</h3>
+<p>Node默认允许同一个事件最多可以指定10个回调函数。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'someEvent'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'event 1'</span><span class="p">);</span> <span class="p">});</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'someEvent'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'event 2'</span><span class="p">);</span> <span class="p">});</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'someEvent'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'event 3'</span><span class="p">);</span> <span class="p">});</span>
+</code></pre></div></div>
+<p>超过10个回调函数，会发出一个警告。这个门槛值可以通过<code class="highlighter-rouge">setMaxListeners</code>方法改变。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">emitter</span><span class="p">.</span><span class="nx">setMaxListeners</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+</code></pre></div></div>
+<h3 id="removealllisteners">removeAllListeners()</h3>
+<p>该方法用于移除某个事件的所有回调函数。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">emitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="c1">// some code here</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">removeAllListeners</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">);</span>
+</code></pre></div></div>
+<p>如果不带参数，则表示移除所有事件的所有回调函数。</p>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">emitter</span><span class="p">.</span><span class="nx">removeAllListeners</span><span class="p">();</span></code></pre></figure>
+<h3 id="listeners">listeners()</h3>
+<p><code class="highlighter-rouge">listeners</code>方法接受一个事件名称作为参数，返回该事件所有回调函数组成的数组。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">ee</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">onlyOnce</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ee</span><span class="p">.</span><span class="nx">listeners</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">));</span>
+  <span class="nx">ee</span><span class="p">.</span><span class="nx">removeListener</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">,</span> <span class="nx">onlyOnce</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">ee</span><span class="p">.</span><span class="nx">listeners</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="nx">ee</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">,</span> <span class="nx">onlyOnce</span><span class="p">)</span>
+<span class="nx">ee</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">);</span>
+<span class="nx">ee</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s2">"firstConnection"</span><span class="p">);</span>
+<span class="c1">// [ [Function: onlyOnce] ]</span>
+<span class="c1">// []</span>
+</code></pre></div></div>
+<p>上面代码显示两次回调函数组成的数组，第一次只有一个回调函数<code class="highlighter-rouge">onlyOnce</code>，第二次是一个空数组，因为<code class="highlighter-rouge">removeListener</code>方法取消了回调函数。</p>
+<h2 id="错误捕获">错误捕获</h2>
+<p>事件处理过程中抛出的错误，可以使用<code class="highlighter-rouge">try...catch</code>捕获。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'events'</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">emitter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">();</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'beep'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'beep'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'beep'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">throw</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">'oops!'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'beep'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'beep again'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'before emit'</span><span class="p">);</span>
+<span class="k">try</span> <span class="p">{</span>
+  <span class="nx">emitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">'beep'</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">'caught while emitting:'</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'after emit'</span><span class="p">);</span>
+</code></pre></div></div>
+<p>上面的代码，<code class="highlighter-rouge">beep</code>一共绑定了三个监听函数。其中，第二个监听函数会抛出错误。执行上面的代码，会得到下面的结果。</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>before emit
+beep
+caught <span class="k">while </span>emitting: oops!
+after emit
+</code></pre></div></div>
+<p>可以看到，第二个监听函数抛出的错误被<code class="highlighter-rouge">try...catch</code>代码块捕获了。一旦被捕获，该事件后面的监听函数都不会再执行了。</p>
+<p>如果不使用<code class="highlighter-rouge">try...catch</code>，可以让进程监听<code class="highlighter-rouge">uncaughtException</code>事件。</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">process</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">'uncaughtException'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">'uncaught exception:'</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">||</span> <span class="nx">err</span><span class="p">);</span>
+  <span class="c1">// 关闭资源</span>
+  <span class="nx">closeEverything</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">'Error while closing everything:'</span><span class="p">,</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">||</span> <span class="nx">err</span><span class="p">);</span>
+    <span class="c1">// 退出进程</span>
+    <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+<h2 id="事件类型">事件类型</h2>
+<p>Events模块默认支持两个事件。</p>
+<ul>
+  <li><code class="highlighter-rouge">newListener</code>事件：添加新的回调函数时触发。</li>
+  <li><code class="highlighter-rouge">removeListener</code>事件：移除回调时触发。</li>
+</ul>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">ee</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"newListener"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evtName</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"New Listener: "</span> <span class="o">+</span> <span class="nx">evtName</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">ee</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"removeListener"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evtName</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Removed Listener: "</span> <span class="o">+</span> <span class="nx">evtName</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{}</span>
+<span class="nx">ee</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"save-user"</span><span class="p">,</span> <span class="nx">foo</span><span class="p">);</span>
+<span class="nx">ee</span><span class="p">.</span><span class="nx">removeListener</span><span class="p">(</span><span class="s2">"save-user"</span><span class="p">,</span> <span class="nx">foo</span><span class="p">);</span>
+<span class="c1">// New Listener: removeListener</span>
+<span class="c1">// New Listener: save-user</span>
+<span class="c1">// Removed Listener: save-user</span>
+</code></pre></div></div>
+<p>上面代码会触发两次newListener事件，以及一次removeListener事件。</p>
+<h2 id="参考链接">参考链接</h2>
+<ul>
+  <li>Hage Yaapa, <a href="http://www.hacksparrow.com/node-js-eventemitter-tutorial.html">Node.js EventEmitter Tutorial</a></li>
+</ul>
+</article>
+<div class="row">
+<div class="twelve columns">
+<h2>留言</h2>
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'jstutorial'; // required: replace example with your forum shortname
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+</div>
+</div>
+<footer>
+<div class="row">
+<div class="twelve columns">
+	<p><a href="/introduction/license.html">版权声明</a> | last modified on 2014-10-20 </p>
+</div>
+</div>
+</footer>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-43771063-1', 'ruanyifeng.com');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

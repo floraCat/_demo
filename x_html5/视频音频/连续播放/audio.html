@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+  <div id="audioBox"> </div>
+ </body>
+ <script>
+ /*获取Url参数值*/
+window.onload = function(){ 
+    var delay = 1000;
+    var baseUrl = '../static/mp3/';
+    var arr = [
+            '安居乐业',
+            '安然无恙',
+            '安身立命'
+    ];
+    var myAudio = null;
+    _handle();
+
+    function _handle () {
+      myAudio = new Audio(); 
+      myAudio.preload = true; 
+      myAudio.controls = true; 
+      myAudio.src = baseUrl + arr.shift() + '.mp3'; 
+      myAudio.addEventListener('ended', playEndedHandler, false); 
+      myAudio.play(); 
+      document.getElementById("audioBox").appendChild(myAudio); 
+      myAudio.loop = false;//禁止循环，否则无法触发ended事件
+    }
+    function playEndedHandler(){ 
+        if (!arr.length) {
+            myAudio.src = baseUrl + '播放完毕.mp3'; 
+            myAudio.play();
+            myAudio.removeEventListener('ended',playEndedHandler,false);
+        } else {
+          setTimeout(function () {
+              myAudio.src = baseUrl + arr.shift() + '.mp3';
+              myAudio.play(); 
+          },delay);
+        }
+    } 
+} 
+ </script>
+</html>

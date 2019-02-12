@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+</head>
+<body>
+
+<style>
+xmp{ font-family:微软雅黑; font-size:14px; line-height: 26px;}
+</style>
+<xmp>
+localStorage：
+- 数据一直存在浏览器，关闭浏览器再打开变量会累加
+------------------------------------------
+</xmp>
+
+<div id="div"></div>
+
+<script type="text/javascript">
+
+	if (localStorage && localStorage.test_local) {
+		localStorage.test_local++;
+	} else {
+		localStorage.test_local = 1;
+	}
+	document.getElementById('div').innerHTML = localStorage.test_local;
+
+</script>
+
+</body>
+</html>

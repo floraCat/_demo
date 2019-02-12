@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<field name="css">
+		<style>
+			.test{ width:100px;}
+		</style>
+	</field>
+	<field name="html">
+		<div class="test">
+			<li>111</li>
+			<li>222</li>
+		</div>
+	</field>
+	<field name="desc">
+		插件描述
+	</field>
+</list>

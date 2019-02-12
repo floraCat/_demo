@@ -1,0 +1,31 @@
+<meta charset="utf-8">
+<script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js "></script>
+<script type="text/javascript" >
+    //填入自己在腾讯地图开放平台申请的KEY
+   var geolocation = new qq.maps.Geolocation("YF5BZ-OONRV-BBDP5-U35K3-MBE6Q-5YBKW", "myapp");
+    var options = {timeout: 8000};
+    geolocation.getLocation(sucCallback, errCallback,options);  
+    //成功的回调
+    function sucCallback(position)
+    {
+        var mapInfo=JSON.stringify(position, null, 4);
+        var jsonMapInfo=eval('(' + mapInfo + ')');
+        //alert("经度"+jsonMapInfo.lng+"维度"+jsonMapInfo.lat);        
+        success(jsonMapInfo.lng,jsonMapInfo.lat);
+    }
+    //失败的回调
+    function errCallback()
+    {
+          alert("定位失败!");
+    }    
+    //业务逻辑    
+    function success(lo,la)
+    {
+        console.log('lo,la')
+        console.log(lo)
+        //拿到经纬度的业务逻辑...
+    }   
+
+alert(JSON.stringify(navigator.userAgent))
+
+</script> 

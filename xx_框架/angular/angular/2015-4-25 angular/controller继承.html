@@ -1,0 +1,29 @@
+<!doctype html>
+<html ng-app="aaa">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="智能社 - zhinengshe.com" />
+<meta name="copyright" content="智能社 - zhinengshe.com" />
+<title>智能社 - www.zhinengshe.com</title>
+<style>
+
+</style>
+<script src="angular.js"></script>
+<script>
+var app=angular.module('aaa', []);
+
+app.controller('parent', function ($scope){
+	$scope.a=12;
+});
+app.controller('child', function ($scope){
+	alert($scope.a);
+});
+</script>
+</head>
+
+<body>
+<div ng-controller="parent">
+	<div ng-controller="child"></div>
+</div>
+</body>
+</html>

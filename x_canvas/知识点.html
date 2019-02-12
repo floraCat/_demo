@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>canvas</title>
+</head>
+<body>
+
+<canvas id="myCanvas"></canvas>
+
+<script type="text/javascript">
+	
+
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+
+@ 先设置样式，再设置转换，最后才 fill 或 stroke 或 moveTo
+
+
+# 像素操作
+----------------------------
+var imgData=ctx.createImageData(100,100); // 创建空白的图形对象，参数：宽高
+alert(imgData.width); // 宽100
+alert(imgData.height); // 高100
+for (var i=0;i<imgData.data.length;i+=4) { // data为像素数组，每个像素存了颜色rgba值
+  imgData.data[i+0]=255;
+  imgData.data[i+1]=0;
+  imgData.data[i+2]=0;
+  imgData.data[i+3]=255; // 0 是透明的，255 是完全可见的
+}
+var imgData2 = ctx.getImageData(10,10,50,50); 
+// 复制一个imageData, 参数：开始复制的x,y坐标，要复制区域的宽高
+// 参数也可以是另一个imageData对象，只复制尺寸，不复制数据即颜色
+
+ctx.putImageData(imgData2,10,10); 
+// 把复制的imageData绘制到画布上，也可以把创建的imgData绘制到画布上
+// 参数：imgData,x,y,dirtyX,dirtyY,dirtyWidth,dirtyHeight
+// 参数说明：图形对象，放置图形对象的起点x,y坐标，从图形对象的x,y坐标开始绘制，绘制宽高
+
+
+# 填充 + 矩形
+----------------------------
+ctx.fillStyle="#000"; // 颜色 或 渐变对象 或 绘图pattern对象
+ctx.fillRect(20,20,150,100); // 两对角的x,y坐标
+# 等同于：
+ctx.rect(20,20,150,100); // 矩形
+ctx.fillStyle="#000";
+ctx.fill();
+
+
+# 描边 + 矩形 + isPointInPath
+----------------------------
+ctx.strokeStyle="#000"; // 颜色 或 渐变对象 或 绘图pattern对象
+ctx.lineWidth=5; // 笔触粗（fill没有此设置）
+ctx.strokeRect(20,20,150,100); // 两对角的x,y坐标
+# 等同于：
+ctx.rect(20,20,150,100);
+ctx.strokeStyle="#000";
+ctx.lineWidth=5;
+ctx.stroke();
+
+if (ctx.isPointInPath(20,20)){ // 判断点(20,20)在当前路径上（只要点是在路径里面也返回true）
+	...
+};
+// 事件委托：可事件监听画布，event.offset获取坐标，用isPointInPath判断event触发的点是否在某图形上来做变换
+// ——————————————————————————————————————————————————————————————————————————————————————————————————————
+
+
+# 清空
+----------------------------
+ctx.fillStyle="red";
+ctx.fillRect(0,0,100,100);
+ctx.clearRect(20,20,80,80); 
+// 矩形(0,0,100,100)内清空(抠掉)一个矩形(20,20,80,80)（应该矩形才有此方法）
+
+
+# 剪切
+----------------------------
+ctx.rect(20,20,100,100);
+ctx.clip(); // 理解为上面路径以外的去掉
+ctx.fillStyle="green";
+ctx.fillRect(0,0,50,50); // 在clip()后绘制绿色矩形，只有两矩形交汇位置可见
+// 一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。
+// 您也可以在使用 clip() 方法前通过使用 save() 方法对当前画布区域进行保存，并在以后的任意时间对其进行恢复（通过 restore() 方法）
+
+
+# 样式：阴影
+----------------------------
+ctx.shadowBlur=20; // 模糊
+ctx.shadowColor="black"; // 颜色
+ctx.shadowOffsetX=20; // 向右偏移20，负值为向左
+ctx.shadowOffsetY=20; // 向下偏移20，负值为向上
+
+
+# 渐变对象：线性填充
+----------------------------
+var myGradient = ctx.createLinearGradient(0,0,0,170); // 此参方向为纵向，如果要横向参数应该为0,0,170,0
+myGradient.addColorStop(0,"black"); // 0为开始，1为结束
+myGradient.addColorStop(0.5,"red"); // 0.5为中间
+myGradient.addColorStop(1,"white");
+
+
+# 渐变对象：放射性填充
+----------------------------
+var myRadial=ctx.createRadialGradient(100, 100, 20, 100, 100, 50); 
+// 参数：开始圆心x,y坐标，开始圆半径，结束圆心x,y坐标，结束圆半径
+myRadial.addColorStop(0,"red");
+myRadial.addColorStop(1,"white");
+
+
+# 绘图pattern对象
+----------------------------
+var imgObj=document.getElementById("img"); // 图片、画布或视频元素
+var myPattern = ctx.createPattern(imgObj,"repeat"); // repeat|repeat-x|repeat-y|no-repeat
+
+
+# 路径 + 线端
+----------------------------
+ctx.beginPath();
+ctx.lineCap="round"; // 线端or线帽： butt|round|square
+ctx.moveTo(20,20);
+ctx.lineTo(20,200);
+ctx.closePath();
+ctx.stroke();
+
+
+# 路径 + 边角
+----------------------------
+ctx.beginPath();
+ctx.lineJoin="miter"; // 两线交汇边角：bevel(斜)|round(圆)|miter(尖)
+ctx.miterLimit=5; // 应该lineJoin="miter"才有，限制最大斜接长度（两条线交汇处内角和外角之间的距离）
+ctx.moveTo(20,20);
+ctx.lineTo(100,50);
+ctx.lineTo(20,100);
+ctx.stroke();
+
+
+# 圆
+----------------------------
+ctx.beginPath();
+ctx.arc(100,100,50,0,2*Math.PI); // 整圆
+// 参数：x,y,r,sAngle,eAngle,counterclockwise - 圆心x,y坐标，半径，起始角，结束角，顺(false)逆(true)时针
+ctx.arc(200,200,50,0,Math.PI,1); // 半圆
+ctx.stroke(); // 或fill()填充
+
+
+# 弧度
+----------------------------
+ctx.beginPath();
+ctx.moveTo(20,20);
+ctx.lineTo(100,20);
+ctx.arcTo(150,20,150,70,50); // (两切线之间的弧度) 起点x,y坐标，终点x,y坐标，弧半径
+ctx.lineTo(150,120);
+ctx.stroke();
+
+
+# 曲线
+----------------------------
+ctx.quadraticCurveTo(20,100,200,20); // cpx,cpy,x,y - 控制点x,y坐标，结束点x,y坐标
+ctx.bezierCurveTo(20,100,200,100,200,20); 
+// 参数：cp1x,cp1y,cp2x,cp2y,x,y - 第一个控制点x,y坐标，第二个控制点x,y坐标，结束点x,y坐标
+
+
+# 字体
+----------------------------
+ctx.font="italic small-caps bold 12px arial";
+ctx.textAlign="start"; // 对齐方式 center|end|left|right|start
+ctx.textBaseline="top"; // 文本基线 alphabetic|top|hanging|middle|ideographic|bottom
+ctx.fillText("Hello World",10,50); // 或strokeText描边，参数：文本，x坐标，y坐标，最大宽度
+alert(ctx.measureText("Hello World").width); // 字体宽度
+
+
+# 图片
+----------------------------
+var img=document.getElementById("img");
+ctx.drawImage(img,10,10); 
+// 参数：img,sx,sy,swidth,sheight,x,y,width,height 
+// 参数说明：图片对象，从图片x,y坐标开始绘制，绘制的图片宽高，绘制在画布上的起点x,y坐标，最后缩放成宽高
+
+
+# 转换 // 放填充或描边之前
+----------------------------
+ctx.scale(2,2); // 宽高放大倍数
+ctx.rotate(20*Math.PI/180); // 旋转20度
+ctx.translate(70,70); // 基于原来的位置再移动x和y个像素
+ctx.transform(1,0.5,-0.5,1,30,10); // 变换：水平缩放,水平倾斜,垂直倾斜,垂直缩放,水平移动,垂直移动
+ctx.setTransform(1,0.5,-0.5,1,30,10); 
+// 不同：transform基于当前对象再新建一个，
+// setTransform也这样，只是如果当前对象是setTransform出来的，它不是新建一个而是重置前一个
+
+
+# 合成 + 透明度
+----------------------------
+ctx.fillStyle="red";
+ctx.globalAlpha=0.9; // 透明度
+ctx.fillRect(20,20,75,50);
+ctx.globalCompositeOperation="source-over"; 
+// 设置新图像如何绘制到已有的图像上；蓝色在上面（如值为destination-over，红色在上面），还有很多其他值
+ctx.fillStyle="blue";
+ctx.fillRect(50,50,75,50);
+
+
+# 状态 保存&恢复
+----------------------------
+save()	// 保存当前环境的状态
+restore()	// 返回之前保存过的路径状态和属性
+// save()和restore()是成对出现的
+// save之后，可以调用Canvas的平移、放缩、旋转、错切、裁剪等操作，可用restore来恢复save()之前的状态，防止前面的操作对后续的绘制有影响
+// 旋转平移等操作实际上是对整个画布操作的，如果不对canvas进行save以及restore，那么每一次绘图都会在上一次的基础上进行操作，最后导致错位
+
+
+----------------------------
+toDataURL() // 返回一个包含图片展示的 data URI
+// 此data url可以在元素img.src把图片渲染出来
+
+
+----------------------------
+createEvent() // 没百度到相关用法
+
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
