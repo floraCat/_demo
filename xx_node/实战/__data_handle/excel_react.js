@@ -18,7 +18,7 @@ var _db = 'db_frontend';
 /*-------------------------------------*/
 
 
-var data = xlsx.parse("./数据处理源文件/" + "es6.xlsx");
+var data = xlsx.parse("./数据处理源文件/" + "react.xlsx");
 var data1 = data[0].data;
 
 var _list_1 = [];
@@ -28,8 +28,8 @@ console.log(len);
 addOne(0);
 function addOne (i) {
     let _ttl = data1[i][0];
-    let _audio = data1[i][1] || data1[i][0];
-    let _des = data1[i][2];
+    let _audio = data1[i][0];
+    let _des = data1[i][1];
     if (_ttl) {
       console.log(i);
       var $obj = {};
@@ -37,7 +37,7 @@ function addOne (i) {
       $obj["audio"]=_audio || '';
       $obj["pic"]=_ttl;
       $obj["description"]=_des || '';
-      $obj["keyword"]='ES6';
+      $obj["keyword"]='react';
       _list_1.push($obj);
       i ++;
       if (i < len) {
