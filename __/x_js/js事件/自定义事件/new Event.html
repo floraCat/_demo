@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div id="show">open</div>
+<div id="close">close</div>
+<p id="p" style="display: none;">1111</p>
+<script>
+class Dialog {
+	// 监听自定义事件
+	constructor () {
+		this.btn = document.getElementById('show');
+	}
+	on (type,callback) {
+		console.log();
+		let self = this;
+		let event = new Event(type);
+		if (type === 'show') {
+			document.addEventListener(type, function () {
+				self._show(callback)
+			});			
+		}
+		if (type === 'close') {
+			document.addEventListener(type, function () {
+				self._close(callback)
+			});	
+		}
+		document.dispatchEvent(event);
+	}
+	// 移除事件
+	off (type,_callback) {
+		console.log(333);
+		let self = this;
+		if (type === 'show') {
+			document.removeEventListener(type,this._show);
+			var btn = document.getElementById('show');
+			this.btn.removeEventListener('click', function () {
+				self._show_click();
+				console.log(333);
+				self.off('show');
+			});
+		}
+		if (type === 'close') {
+			document.removeEventListener(type,this._close);
+		}		
+	}
+	// show事件的回调函数
+	_show (_callback) {
+		console.log(2111);
+		let self = this;
+		var btn = document.getElementById('show');
+		this.btn.addEventListener('click', function () {
+			self._show_click();
+		});
+		if (_callback) _callback();
+	}
+	_show_click (_callback) {
+		document.getElementById('p').style.display = 'block';
+		console.log(Reflect);
+		// this.off('show');
+		if (_callback) _callback();
+	}
+	// close事件的回调函数
+	_close (_callback) {
+		var btn = document.getElementById('close');
+		btn.onclick = function () {
+			document.getElementById('p').style.display = 'none';
+			if (_callback) _callback();
+		}
+	}
+}
+// 实例
+var x = new Dialog();
+x.on('show');
+// x.off('show');
+x.on('close');
+</script>
+</body>
+</html>

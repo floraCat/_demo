@@ -3,12 +3,12 @@ var x,y;
 var child_process = require('child_process');
 
 
-var vv = child_process.execFile('node -v');
+var vv = child_process.exec('node -v');
 vv.on('close', function (code) {
   x=2;
 });
 
-var ww = child_process.execFile('node -v');
+var ww = child_process.exec('node -v');
 ww.on('close', function (code) {
   y=3;
 });

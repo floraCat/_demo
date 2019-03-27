@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div id="show">open</div>
+<div id="close">close</div>
+<p id="p" style="display: none;">1111</p>
+
+<script>
+function EventTarget(){
+  this.handlers = {};
+}
+EventTarget.prototype = {
+  constructor: EventTarget,
+  addEvent: function(type, handler){
+    if(typeof this.handlers[type] == 'undefined'){
+      this.handlers[type] = [];
+    }
+    this.handlers[type].push(handler);
+  },
+  fireEvent: function(event){
+    if(!event.target){
+      event.target = this;
+    }
+    if(this.handlers[event.type] instanceof Array){
+      var handlers = this.handlers[event.type];
+      for(var i = 0; i < handlers.length; i++){
+        handlers[i](event);
+      }
+    }
+  },
+  removeEvent: function(type, handler){
+    if(this.handlers[type] instanceof Array){
+      var handlers = this.handlers[type];
+      for(var i = 0; i < handlers.length; i++){
+        if(handlers[i] == handler){
+          break;
+        }
+      }
+      handlers.splice(i, 1);
+    }
+  }
+};
+
+
+// dialog类
+class Dialog {
+  constructor () {
+    this.event = new EventTarget();
+  }
+  on (type,callback) {
+    let self = this;
+    if (type === 'show') {
+      this.event.addEvent(type, function () {
+        self._show(callback)
+      });   
+    }
+    if (type === 'close') {
+      this.event.addEvent(type, function () {
+        self._close(callback)
+      }); 
+    }
+    this.event.fireEvent({type: type});
+  }
+  // 移除事件
+  off (type) {
+    if (type === 'show') {
+      this.event.removeEvent(type,this._show());
+      var btn = document.getElementById('show');
+      btn.removeEventListener('click');
+    }
+    if (type === 'close') {
+      this.event.removeEvent(type,this._close());
+    }   
+  }
+  // show事件的回调函数
+  _show (_callback) {
+    var btn = document.getElementById('show');
+    var _fun = function () {
+      document.getElementById('p').style.display = 'block';
+      if (_callback) _callback();
+    }
+    btn.onclick = function () {
+      
+    }
+  }
+  // close事件的回调函数
+  _close (_callback) {
+    var btn = document.getElementById('close');
+    btn.onclick = function () {
+      if (_callback) _callback();
+    }
+  }
+}
+// 实例
+var x = new Dialog();
+x.on('show', () => {
+  
+  x.off('show');
+});
+x.on('close', () => {
+  document.getElementById('p').style.display = 'none';
+});
+</script>
+</body>
+</html>

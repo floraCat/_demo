@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>下载所有api</title>
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<script>
+var $apis = [];
+var _len = 0;
+var $HOST = 'https://dev.veryxiang.com/';
+var $suf = '';
+window.onload = function () {
+	getAPI(function (res) {
+		$apis = res;
+		_len = $apis.length;
+		delAllNode(function () {
+			setTimeout(function () {
+				ajax(0);
+			}, 2000);
+		});
+	});
+		
+}
+function getAPI (callback) {
+	$.ajax({
+		url: 'http://localhost:8055/getAPI',
+		type: 'GET',
+		success: function (res) {
+			console.log(res);
+			if (callback) {callback(res);}
+		}
+	});
+}
+function ajax (index) {
+	$.ajax({
+		url: $HOST + $apis[index].path + $suf,
+		type: $apis[index].type,
+		data: $apis[index].data,
+		dataType: 'json',
+		success:function (res) {
+			ajaxNode($apis[index].path,res);
+			if (index >= _len - 1) {
+				console.log('--END--');
+			} else {
+				index++;
+				ajax(index);
+			}
+		}
+	});
+}
+function ajaxNode (path,res) {
+	$.ajax({
+		url: 'http://localhost:8055/download',
+		type: 'POST',
+		data: {path:path,res:JSON.stringify(res)},
+		dataType: 'json',
+		success: function (res2) {
+			console.log(3333);
+			console.log(res2);
+		}
+	});
+}
+function delAllNode (callback) {
+	$.ajax({
+		url: 'http://localhost:8055/delAll',
+		type: 'POST',
+		data: {},
+		success: function (res3) {
+			console.log(5555);
+			console.log(res3);
+			if (callback) { callback()}
+		}
+	});
+}
+</script>
+</body>
+</html>

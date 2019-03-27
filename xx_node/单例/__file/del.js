@@ -2,6 +2,11 @@ var fs = require('fs');
 
 // 删除文件
 // fs.unlink(__dirname+'/img.png');
+fs.unlink(__dirname+'/aaa.txt',function (err) {
+    if (err) {
+        console.log(err)
+    }
+});
 
 // 删除文件夹
 // deleteFolder(__dirname+'/test');

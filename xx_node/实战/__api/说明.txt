@@ -1,0 +1,10 @@
+功能：把/_api/index.js内所有api生成json文件放到/json内
+// 操作的是/14_xiaoxiang/vue-admin-local/client/assets/_api文件夹
+
+-------------------------------------
+
+步骤：
+
+- 确保api都写入 index.js
+
+- 启动 __8055.js后自动打开浏览器同时自动请求生成json文件
