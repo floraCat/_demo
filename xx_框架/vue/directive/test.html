@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div v-xxx="changeColor">{{num}}</div>
+    <button @click="add">增加</button>
+</div>
+<script>
+        // Vue.directive
+        Vue.directive('xxx', function(el, bind, vNode){
+            el.style.color = bind.value();
+            console.log(el);
+            console.log(bind);
+            console.log(vNode);
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                num: 10,
+                color: 'red'
+            },
+            methods: {
+                add: function(){
+                    this.num++;
+                },
+                changeColor: function(){
+                    return this.color;
+                }
+            }
+        });
+	</script>
+</body>
+</html>

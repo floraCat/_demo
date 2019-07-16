@@ -1,0 +1,82 @@
+.designer-tree {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+
+    &-link {
+        pointer-events: visibleStroke;
+        fill: none;
+        stroke: #d3d3d3;
+        stroke-width: 4px;
+    }
+
+    &-node {
+        fill: none;
+        fill-opacity: 1;
+        pointer-events: all;
+        cursor: pointer;
+        &.active {
+            .designer-tree-node-icon {
+                color: #d3d3d3;
+                fill: #d3d3d3;
+            }
+            .designer-tree-node-circle-mask {
+                fill: #333333;
+            }
+        }
+        &:hover {
+            .designer-tree-node-icon {
+                color: #d3d3d3;
+                fill: #d3d3d3
+            }
+            .designer-tree-node-circle-mask {
+                fill: #666666;
+            }
+        }
+        &-icon {
+            color: #222222;
+            fill: #222222;
+        }
+        &-circle-mask {
+            fill: #d3d3d3;
+        }
+        &-back-circle-mask {
+            fill: #ffffff;
+        }
+
+        &-text {
+            text-anchor: middle;
+            fill: currentColor;
+            font-weight: bold;
+            cursor: default;
+            font-size: 14px;
+        }
+        &-text-label {
+            text-anchor: middle;
+            fill: currentColor;
+            font-size: 12px;
+            cursor: default;
+        }
+    }
+
+    .canvas-axis {
+        color: #919191;
+        stroke-opacity: 0.2;
+        shape-rendering: crispEdges;
+
+        .domain {
+            color: transparent;
+        }
+    }
+
+    .canvas-shot-axis {
+        color: #919191;
+        stroke-opacity: 0.2;
+        stroke-dasharray: 2, 2;
+        shape-rendering: crispEdges;
+    }
+
+}
+
+

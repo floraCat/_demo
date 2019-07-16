@@ -1,0 +1,21 @@
+interface Node {
+    name: string,
+    node: string, 节点类型
+    uuid: string,
+    file: string, 从属文件类型
+    icon: string,
+    label: string,
+    props: Prop[],
+    parentId: string,
+    children: Node[]
+}
+
+interface Prop {
+    label: '基本属性',
+    prop: 'basic-props',
+    form: 'form-group',
+    value: null,
+    options: []
+    children: Prop[]
+}
+
