@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<input type="file" onclick="upload($event)" />
+<script>
+    /*
+    * 上传文件需要用 new FormData() 序列化表单file控件
+    * 上传表单必须设置 Content-Type：multipart/form-data
+    * */
+    function  upload(ev) {
+        if (ev.target.files && ev.target.files.length > 0) {
+            let file = ev.target.files[0];
+
+            // 判断文件类型
+            let fileType = /\.txt$/i;
+            let filename = file.name;
+            if (!fileType.test(filename)) {
+                alert('文件类型错误，请上传txt类型的文件');
+                event.target.value = null;
+                return;
+            }
+
+            // 大小限制
+            let isLimit = file.size / 1024 / 1024 > 100;
+            if(isLimit) {
+                alert('上传文件不能大于100M');
+                event.target.value = null;
+                return;
+            }
+
+            // 序列化表单参数 提交后台
+            let data = new FormData();
+            data.append('name', 'xxx');
+            data.append('file', file);
+            let config = {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            };
+            $axios.post(url, data, config);
+        }
+
+    }
+</script>
+</body>
+</html>

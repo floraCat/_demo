@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    /*
+    * 后端设置了响应头 content-disposition: attachment;filename=aaa.txt 前端访问是会直接下载
+    * */
+    let id = 1;
+    let link = document.createElement('a');
+    let url = `http://www.xxx.com?id=${id}`;
+    link.href = url;
+    link.click();
+    link = null;
+</script>
+</body>
+</html>
