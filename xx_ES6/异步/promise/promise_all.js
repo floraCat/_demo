@@ -27,5 +27,5 @@ Promise
 .all([p(), a(), b()])
 .then(function(results){
 	console.log('三个Promise实例都已完成，结果为：')
-    console.log(results);
+    console.log(results); // ["p", "a", "b"]
 });

@@ -1,6 +1,7 @@
 function* getStockPrice(stock) {
 	while (true) {
-		yield Math.random()*100;
+	    let x = Math.random()*100;
+		yield x;
 	}
 }
 

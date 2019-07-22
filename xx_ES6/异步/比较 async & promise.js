@@ -26,51 +26,15 @@ function timeout(ms) {
 }
 
 function print(value) {
-  console.log(value);
+    timeout(2000).then(() => {
+        console.log(value);
+    });
+
 }
 
-timeout(2000).then(() => {
-	print('xxx');
-});
+print('xxx');
 
 
-##############################################################
-
-/*
-** async / await 的写法
-*/
-function timeout(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  })
-}
-
-async function print(ms,value) {
-  await timeout(ms);
-  console.log(value);
-}
-
-print(2000,'xxx');
-
---------------------------------- vs ----------------
-
-/*
-** Promise 的写法
-*/
-function timeout(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  })
-}
-
-function print(ms,value) {
-	timeout(ms).then(() => {
-		console.log(value);
-	});
-}
-
-print(2000,'xxx');
-	
 
 ######################################################### 传参 #####
 

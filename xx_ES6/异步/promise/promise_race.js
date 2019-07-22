@@ -27,5 +27,5 @@ Promise
 .race([p(), a(), b()])
 .then(function(results){
 	console.log('三个Promise实例中有一个先完成， 第一个完成的是：')
-    console.log(results);
+    console.log(results); // p
 });
