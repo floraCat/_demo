@@ -1,0 +1,52 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+  <title>IconFont Demo</title>
+  <link rel="shortcut icon" href="https://gtms04.alicdn.com/tps/i4/TB1_oz6GVXXXXaFXpXXJDFnIXXX-64-64.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="./font/iconfont.css" />
+	<script src="./font/iconfont.js"></script>
+</head>
+
+	<span class="test1 iconfont"></span>
+
+<br />
+<br />
+
+	<span class="test2"></span>
+
+<br />
+<br />
+
+	<svg class="test3">
+		<use xlink:href="#iconpersonnel"></use>
+	</svg>
+
+<style>
+/*---------------------------------------*/
+/*添加了类名 iconfont*/
+.test1 {
+	font-size: 20px;
+	color: red;
+}
+.test1:before {
+    content: '\e658';
+}
+/*---------------------------------------*/
+/*如果不加类名iconfont，需要加 font-family: 'iconfont'; */
+.test2 {
+	font-family: 'iconfont';
+	font-size: 20px;
+	color: green;
+}
+.test2:before {
+    content: '\e658';
+}
+/*---------------------------------------*/
+.test3 {
+	width: 20px;
+	height: 20px;
+	fill: blue;
+}
+/*---------------------------------------*/
+</style>
+</html>

@@ -8,20 +8,23 @@ export default {
   name: 'rx-throttle',
   data () {
     return {
-      debounceTimeQuery: null,
+      throttleTime: null,
       inputTxt: null,
       testTime: 0
     }
   },
   mounted () {
-    this.debounceTimeQuery = new ThrottleTimeFn(500);
-    this.debounceTimeQuery.subscribe(() => {
+    this.throttleTime = new ThrottleTimeFn(500);
+    this.throttleTime.subscribe(() => {
       this.getData();
     });
   },
+  destroyed () {
+  	this.throttleTime.unsubscribe();
+  },
   methods: {
     filter() {
-      this.debounceTimeQuery.next();
+      this.throttleTime.next();
     },
     getData () {
       this.testTime ++;

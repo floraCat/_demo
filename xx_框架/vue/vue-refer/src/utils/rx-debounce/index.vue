@@ -8,20 +8,23 @@ export default {
   name: 'rx-debounce',
   data () {
     return {
-      debounceTimeQuery: null,
+      debounceTime: null,
       inputTxt: null,
       testTime: 0
     }
   },
   mounted () {
-    this.debounceTimeQuery = new DebounceTimeFn(300);
-    this.debounceTimeQuery.subscribe(() => {
+    this.debounceTime = new DebounceTimeFn(300);
+    this.debounceTime.subscribe(() => {
       this.getData();
     });
   },
+  destroyed () {
+  	this.debounceTime.unsubscribe();
+  },
   methods: {
     filter() {
-      this.debounceTimeQuery.next();
+      this.debounceTime.next();
     },
     getData () {
       this.testTime ++;
