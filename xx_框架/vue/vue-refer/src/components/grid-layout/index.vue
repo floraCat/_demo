@@ -16,7 +16,8 @@
     @layout-updated="layoutUpdatedEvent"
   >
 
-    <grid-item v-for="item in layout"
+    <grid-item v-for="(item,index) in layout"
+    			:key="index"
                :x="item.x"
                :y="item.y"
                :w="item.w"
