@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+    /*
+    * 拦截器解决的问题：
+    * - 不用catch也不会报错，只会弹窗显示错误信息
+    * - 可设置忽略拦截器的处理
+    * 未解决问题：什么情况会请求错误？
+    */
+
+    // 请求拦截
+    // -----------------------------------------------
+    axios.interceptors.request.use(
+        (config) => {
+            // 可添加loading图标
+            return config;
+        },
+        (error) => {
+            console.log(`~~请求错误`);
+            return Promise.reject(error);
+        }
+    );
+    // 响应拦截
+    // -----------------------------------------------
+    axios.interceptors.response.use(
+        (response) => { // 请求成功，判断code作不同处理
+            let data = response.data;
+            if (data.ignoreInterceptor) { // 如设置了ignoreInterceptor，直接返回response;
+                return response;
+            }
+            if (data.code === 0) {
+                console.log('---成功');
+            } else {
+                alert(`---错误信息：${data.message}`);
+                // return Promise.reject(response); // 如果返回Promise.reject，需要设置axios.catch，否则报错
+            }
+            return response;
+        },
+        (error) => { // 404，如请求链接错误；不设置默认返回Promise.reject(error)
+            alert(`---请求错误:${error}`);
+            // return Promise.reject(error);
+        }
+    );
+    // -----------------------------------------------
+    new Vue({
+        el: '#app',
+        data () {
+            return {
+
+            };
+        },
+        mounted () {
+            this.getData1();
+        },
+        methods: {
+            // -----------------------------------------------
+            // 成功 code = 0;
+            getData1 () {
+                axios.get('http://localhost:8011/data.json')
+                    .then((res) => {
+                        console.log(1111, 'axios then', res);
+                    });
+            },
+            // -----------------------------------------------
+            // 成功 code = -1;
+            getData2 () {
+                axios.get('http://localhost:8011/data_error.json')
+                    .then((res) => {
+                        console.log(2222, 'axios then', res);
+                    });
+            },
+            // -----------------------------------------------
+            // 404, url错误
+            getData3 () {
+                axios.get('http://localhost:8011/data_xxx.json')
+                    .then((res) => {
+                        console.log(3333, 'axios then', res);
+                    });
+            },
+            // -----------------------------------------------
+            // 跳过拦截器
+            getData4 () {
+                axios.get('http://localhost:8011/data.json', {
+                    transformResponse: [(res) => {
+                        res = JSON.parse(res);
+                        res.ignoreInterceptor = true;
+                        return res;
+                    }]
+                })
+                .then((res) => {
+                    console.log(1111, 'axios then', res);
+                });
+            }
+            // -----------------------------------------------
+        }
+    });
+</script>
+</body>
+</html>

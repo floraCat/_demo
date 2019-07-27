@@ -1,0 +1,14 @@
+vuex store 状态管理 按需加载 module + module 多层嵌套
+- 最外层的store(即vuex.Store实例化时)添加的是整站全局的store,不会被注销
+- 在上层父组件启动时才注册对应的store（其中modules把下级的store注册进来，即下一条目的说明）
+- 多个子组件在其父组件命名空间下的modules中做模块化
+- 在多个上层父组件的mounted中注销（不会用到的）其他父组件的store
+
+------------------------------------------------------------
+
+store.registerModule vs modules ：
+- 都可以使用namespace
+- 都可以使用store.unregisterModule来注销（modules注销后不能在注册？）
+- 都可以嵌套多层modules
+- 被嵌套的modules（store下下一级）好像不能用store.registerModule来注销
+- store.registerModule可以在需要的时候再挂载，而modules在vuex实例时就加载了
