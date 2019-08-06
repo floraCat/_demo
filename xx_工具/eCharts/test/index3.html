@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 900px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById("main"));
+    var option = {
+        title: [
+            {
+                text:'2个维度 + 2个度量',
+                left: 20
+            },
+            {
+                text: 'xxx',
+            },
+            // {
+            //     text:'06-20',
+            //     left:'18%',
+            //     bottom:'15',
+            //     textAlign:'center',
+            //     textStyle: { fontSize: 11, fontWeight: 'normal'}
+            // },
+            // {
+            //     text:'06-21',
+            //     left:'41%',
+            //     bottom:'15',
+            //     textAlign:'center',
+            //     textStyle: { fontSize: 11, fontWeight: 'normal'}
+            // },
+            // {
+            //     text:'06-22',
+            //     left:'64%',
+            //     bottom:'15',
+            //     textAlign:'center',
+            //     textStyle: { fontSize: 11, fontWeight: 'normal'}
+            // },
+            // {
+            //     text:'06-23',
+            //     left:'87%',
+            //     bottom:'15',
+            //     textAlign:'center',
+            //     textStyle: { fontSize: 11, fontWeight: 'normal'}
+            // }
+        ],
+        legend: {},
+        grid:[
+            {x:'63',y:'7%',width:'23%',height:'75%', top: 40},
+            {x:'270',y:'7%',width:'23%',height:'75%', top: 40},
+            {x:'53%',y:'7%',width:'23%',height:'75%', top: 40},
+            {x:'76%',y:'7%',width:'23%',height:'75%', top: 40}
+        ],
+        tooltip:{
+            // formatter:'Group {a}:({c})'
+        },
+        // dataset: {
+        //     source: [
+        //         // ['', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        //         // ['记录数', 820, 932, 901, 934, 1290, 1330, 1320],
+        //         // ['质量分数', 920, 532, 401, 634, 1190, 1030, 1020]
+        //         ['', '记录数', '质量分数'],
+        //         ['Mon', 820, 932],
+        //         ['Tue', 901, 934],
+        //         ['Wed', 1330, 1320],
+        //         ['Mon', 821, 933],
+        //         ['Tue', 907, 936],
+        //         ['Wed', 1340, 1320],
+        //     ]
+        // },
+        xAxis:[
+            {
+                type: 'category',
+                data:['Mon', 'Tue', 'Wed','Mon', 'Tue', 'Wed'],
+                axisLabel: { align: 'center', fontSize: 10, interval: 0, rotate: 25}},
+        ],
+        yAxis:[
+            {
+                min:0,
+                max:1500,
+                splitLine: { show: false},
+                axisLabel: {}
+            },
+        ],
+        series: [
+            { name: '记录数', type: 'bar', data: [111, 222, 333, 444, 555, 666]},
+            { name: '质量分数', type: 'bar', data: [111, 222, 333, 444, 555, 666]},
+        ]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>

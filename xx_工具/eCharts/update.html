@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 900px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    var option = {
+        title: {
+            text: '-update demo-'
+        },
+        xAxis: {
+            type: 'category',
+            data: ['aaa', 'bbb']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            { type: 'bar', data: [11, 22]},
+        ]
+    };
+    myChart.setOption(option);
+    setTimeout(() => {
+        option.xAxis.data[0] = 'aaa2';
+        myChart.setOption(option);
+    }, 2000);
+</script>

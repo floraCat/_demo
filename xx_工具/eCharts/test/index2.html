@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 900px;height:500px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById("main"));
+    var option = {
+        title: [
+            {
+                text:'2个度量 + 1个维度 + 1个区分',
+                left: 20
+            },
+            {
+                text:'汇总(记录数)',
+                left:0,
+                top:30,
+                rotate: -90,
+                textStyle: { fontSize: 11, fontWeight: 'normal', width: 10}
+            },
+            {
+                text:'汇总(人脸质量分数)',
+                left:0,
+                top:260,
+                textAlign:'center',
+                textStyle: { fontSize: 11, fontWeight: 'normal'}
+            }
+        ],
+        legend: {
+            data:['>80','<=80']
+        },
+        grid:[
+            {x:'60',y:'30',width:'90%',height:'190', top: 60},
+            {x:'60',y:'270',width:'90%',height:'190', top: 290},
+        ],
+        tooltip:{
+            formatter:'Group {a}:({c})'
+        },
+        xAxis:[
+            {gridIndex:0, show: false, type: 'category', axisLabel: { align: 'center'}, data:['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']},
+            {gridIndex:1,type: 'category', axisLabel: { align: 'center'}, data:['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']},
+        ],
+        yAxis:[
+            {gridIndex:0,min:0,max:1500},
+            {gridIndex:1, min:0,max:150},
+        ],
+        series: [{
+            name: '>80',
+            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            type: 'bar',
+            xAxisIndex:0,
+            yAxisIndex:0,
+        },{
+            name: '<=80',
+            data: [920, 532, 401, 634, 1190, 1030, 1020],
+            type: 'bar',
+            xAxisIndex:0,
+            yAxisIndex:0,
+        },{
+            name: '>80',
+            data: [20, 32, 101, 134, 130, 130, 120],
+            type: 'bar',
+            xAxisIndex:1,
+            yAxisIndex:1,
+        },{
+            name: '<=80',
+            data: [20, 32, 101, 134, 130, 130, 120],
+            type: 'bar',
+            xAxisIndex:1,
+            yAxisIndex:1,
+        }]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>

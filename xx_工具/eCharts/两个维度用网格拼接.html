@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 900px;height:400px;"></div>
+<script>
+    var data = {
+        opt: [
+            {measureName:'记录数', seriesType:'bar'},
+            {measureName:'质量分数', seriesType:'bar'},
+        ],
+        sum: 9,
+        arr: [
+            {
+                dimensionTop: '广东',
+                sum: 2,
+                children: [
+                    { dimensionName: 'A', measureVals: [11, 12]},
+                    { dimensionName: 'B', measureVals: [21, 22]},
+                ]
+            },
+            {
+                dimensionTop: '湖南',
+                sum: 3,
+                children: [
+                    { dimensionName: 'B', measureVals: [31, 32]},
+                    { dimensionName: 'D', measureVals: [41, 42]},
+                    { dimensionName: 'E', measureVals: [51, 52]},
+                ]
+            },
+            {
+                dimensionTop: '广西',
+                sum: 2,
+                children: [
+                    { dimensionName: 'A', measureVals: [11, 12]},
+                    { dimensionName: 'B', measureVals: [21, 22]},
+                ]
+            },
+            {
+                dimensionTop: '江西',
+                sum: 2,
+                children: [
+                    { dimensionName: 'A', measureVals: [11, 12]},
+                    { dimensionName: 'B', measureVals: [21, 22]},
+                ]
+            },
+        ]
+    };
+
+    var grid = [];
+    var xAxis = [];
+    var prevX = 40;
+    var titles = [];
+    var series = [];
+    data.opt.map((x,i) => {
+        series[i] = {};
+        series[i].name = x.measureName;
+        series[i].type = x.seriesType;
+        series[i].data = [];
+    });
+    data.arr.map((x,i) => {
+        grid[i] = {
+            x: prevX,
+            y: '7%',
+            width: x.sum/data.sum*830,
+            height: '75%',
+            top: 40,
+            show: i%2, // 偶数网格带背景
+            backgroundColor: '#ccc'
+        };
+        titles[i] = {
+            text: x.dimensionTop,
+            left: prevX + x.sum/data.sum*830/2,
+            top: 50,
+            textAlign:'center',
+            textStyle: { fontSize: 12, fontWeight: 'normal'}
+        };
+        prevX = prevX + x.sum/data.sum*830;
+        let xAxisData = [];
+        x.children.map(y => {
+            xAxisData.push(y.dimensionName);
+            for (var z = 0; z < y.measureVals.length; z ++) {
+                series[z].data.push(y.measureVals[z]);
+            }
+        });
+        xAxis[i] = {
+            gridIndex: i,
+            type: 'category',
+            data: xAxisData
+        };
+    });
+
+    /*--------------------------------------------------------------*/
+    var myChart = echarts.init(document.getElementById("main"));
+    var option = {
+        title: titles,
+        legend: {
+            data:['汇总(记录数)','汇总(人脸质量分数)']
+        },
+        grid:grid,
+        tooltip:{
+            formatter:'Group {a}:({c})'
+        },
+        xAxis: xAxis,
+        yAxis:[
+            {gridIndex:0,min:0,max:100,
+                splitLine: { show: false},
+                axisLabel: {}
+            },
+            {gridIndex:1, show: false, min:0,max:1500},
+            {gridIndex:2, show: false, min:0,max:1500},
+            {gridIndex:3, show: false, min:0,max:1500}
+        ],
+        series: series,
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>

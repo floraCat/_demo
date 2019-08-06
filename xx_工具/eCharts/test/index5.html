@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 900px;height:400px;"></div>
+<script>
+    var data = {
+        opt: [
+            {name:'记录数', type:'bar'},
+            {name:'质量分数', type:'bar'},
+        ],
+        sum: 4,
+        arr: [
+            {
+                prov: '广东',
+                sum: 2,
+                children: [
+                    { name: 'A', measureVals: [11, 12]},
+                    { name: 'B', measureVals: [21, 22]},
+                ]
+            },
+            {
+                prov: '湖南',
+                sum: 2,
+                children: [
+                    { name: 'B', measureVals: [31, 32]},
+                    { name: 'D', measureVals: [41, 42]},
+                ]
+            }
+        ]
+    };
+    var xAxisData = [];
+    var series = [];
+    var prevLeft = 100;
+    var titles = [];
+    data.opt.map((x,i) => {
+        series[i] = {};
+        series[i].name = x.name;
+        series[i].type = x.type;
+        series[i].data = [];
+    });
+    data.arr.map((x,i) => {
+        let left = prevLeft + x.sum/data.sum*700/2;
+        prevLeft = prevLeft + x.sum/data.sum*700;
+        titles[i] = {
+            text: x.prov,
+            left: left,
+            top: 50,
+            textAlign:'center'
+        };
+        x.children.map((y,j) => {
+            xAxisData.push(y.name);
+            for (var z = 0; z < y.measureVals.length; z ++) {
+                series[z].data.push(y.measureVals[z]);
+            }
+        });
+    });
+    console.log(4444,titles);
+    /*-----------------------------------------------------------*/
+    var myChart = echarts.init(document.getElementById("main"));
+    var option = {
+        title: titles,
+        legend: {},
+        tooltip:{},
+        xAxis:[
+            {
+                type: 'category',
+                data: xAxisData,
+                axisLabel: { align: 'center', fontSize: 10, interval: 0, rotate: 25}},
+        ],
+        yAxis:[
+            {
+                min:0,
+                max:100,
+                splitLine: { show: false},
+                axisLabel: {}
+            },
+        ],
+        series: series
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>
